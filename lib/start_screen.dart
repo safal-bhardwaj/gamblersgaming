@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'account_screen.dart';
+import 'login_screen.dart';
 class StartScreen extends StatelessWidget{
   const StartScreen({super.key});
 
@@ -33,7 +36,9 @@ class StartScreen extends StatelessWidget{
                 ]
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AccountScreen()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   fixedSize: const Size(170, 170),
