@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Splash.dart';
 import 'gg.dart';
 //import 'start_screen.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: GamblersGaming(),
+      home: Splash(),
     );
   }
 }

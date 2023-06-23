@@ -9,7 +9,7 @@ class LogInScreen extends StatelessWidget{
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/Images/GGLogo.png', width: 150,),
+          //Image.asset('assets/Images/GGLogo.png', width: 150,),
           const SizedBox(height: 10,),
           //UserIcon
           Column(
