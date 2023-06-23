@@ -5,6 +5,7 @@ class StartScreen extends StatelessWidget{
 
   @override
   Widget build(context){
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
