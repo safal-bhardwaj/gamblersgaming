@@ -59,6 +59,10 @@ class _CreateAccountState extends State<CreateAccount> {
               child: TextFormField(
                 decoration: InputDecoration(
                   isDense: true,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Icon(Icons.account_circle_rounded,color: Colors.white,size: 28,)
+                    ),
                   hintText: 'Enter your name',
                   labelText: 'Full Name',
                   contentPadding: const EdgeInsets.all(0.0),
@@ -82,8 +86,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     padding: const EdgeInsets.all(10.0),
                     child: Image.asset(
                       'assets/Images/user1.png',
-                      width: 20,
-                      height: 20,
+                      width: 18,
+                      height: 18,
                     ),
                   ),
                   hintText: 'Enter your name',
@@ -110,8 +114,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     padding: const EdgeInsets.all(10.0),
                     child: Image.asset(
                       'assets/Images/lock.png',
-                      width: 20,
-                      height: 20,
+                      width: 18,
+                      height: 18,
                     ),
                   ),
                   hintText: 'Enter Password',
@@ -136,8 +140,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     padding: const EdgeInsets.all(10.0),
                     child: Image.asset(
                       'assets/Images/login.png',
-                      width: 20,
-                      height: 20,
+                      width: 18,
+                      height: 18,
                     ),
                   ),
                   hintText: 'Confirm you Password',
@@ -184,7 +188,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
                   enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(
-                        width: 1,
+                        width: 1.2,
                         color: Color.fromARGB(255, 255, 15, 24),
                       )
                   ),

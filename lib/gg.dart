@@ -21,7 +21,7 @@ class _GGState extends State<GamblersGaming>{
           decoration: const BoxDecoration(
             color: Colors.black,
           ),
-          child: const CreateAccount(),
+          child: const StartScreen(),
         ),
       ),
     ),
