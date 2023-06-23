@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'account_screen.dart';
-import 'login_screen.dart';
+import 'Gamer/account_screen.dart';
+import 'Gamer/login_screen.dart';
+
 class StartScreen extends StatelessWidget{
   const StartScreen({super.key});
 
   @override
   Widget build(context){
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

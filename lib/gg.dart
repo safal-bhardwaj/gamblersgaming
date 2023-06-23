@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gamblersgaming/account_screen.dart';
-import 'package:gamblersgaming/create_account.dart';
+import 'package:gamblersgaming/Gamer/account_screen.dart';
+import 'Gamer/create_account.dart';
 import 'package:gamblersgaming/start_screen.dart';
-import 'login_screen.dart';
+import 'Gamer/login_screen.dart';
 class GamblersGaming extends StatefulWidget{
   const GamblersGaming({super.key});
 

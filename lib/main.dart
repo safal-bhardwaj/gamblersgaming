@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamblersgaming/Splash.dart';
-import 'gg.dart';
+import 'package:gamblersgaming/gg.dart';
+//import 'gg.dart';
 //import 'start_screen.dart';
 
 void main() {
