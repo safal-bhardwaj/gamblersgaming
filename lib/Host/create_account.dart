@@ -31,7 +31,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                            color: Color.fromRGBO(19, 15, 255, 24),
+                            color: Color.fromRGBO(8,10,128,24),
                             blurRadius: 20,
                             spreadRadius: 5
                         )
@@ -51,7 +51,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                           Image.asset(
                             'assets/Images/Gamer/user.png',
                             width: 70,
-                            color: const Color.fromARGB(255, 255, 15, 24),
+                            color: const Color.fromRGBO(8,10,128,24),
                           ),
                         ],
                       )
@@ -69,9 +69,13 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         isDense: true,
-                        prefixIcon: const Padding(
+                        prefixIcon: Padding(
                           padding: EdgeInsets.all(10.0),
-                          child: Icon(Icons.account_circle_rounded,color: Colors.white,size: 28,)
+                          child: Image.asset(
+                            'assets/Images/name.png',
+                            width: 18,
+                            height: 18,
+                          ),
                           ),
                         hintText: 'Enter your name',
                         labelText: 'Full Name',
@@ -80,7 +84,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 0.8,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
@@ -95,7 +99,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Image.asset(
-                            'assets/Images/Gamer/user1.png',
+                            'assets/Images/user1.png',
                             width: 18,
                             height: 18,
                           ),
@@ -107,7 +111,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.2,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
@@ -123,7 +127,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Image.asset(
-                            'assets/Images/Gamer/lock.png',
+                            'assets/Images/lock.png',
                             width: 18,
                             height: 18,
                           ),
@@ -134,7 +138,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.3,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
@@ -149,7 +153,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Image.asset(
-                            'assets/Images/Gamer/login.png',
+                            'assets/Images/login.png',
                             width: 18,
                             height: 18,
                           ),
@@ -161,7 +165,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
@@ -173,6 +177,14 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         isDense: true,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            'assets/Images/email.png',
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
                         contentPadding: const EdgeInsets.all(0.0),
                         hintText: 'Enter Email Address',
                         labelText: 'Email Address',
@@ -180,7 +192,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
@@ -192,6 +204,14 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         isDense: true,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            'assets/Images/UPI.png',
+                            width: 18,
+                            height: 18,
+                          ),
+                        ),
                         hintText: 'Enter UPI Id',
                         labelText: 'UPI Id / Number',
                         contentPadding: const EdgeInsets.all(0.0),
@@ -199,24 +219,27 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1.2,
-                              color: Color.fromARGB(255, 255, 15, 24),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                       ),
                     ),
                   ),
                   Container(
+
                     width: 200,
                       padding: const EdgeInsets.only(left: 40.0, top : 40),
                       child: ElevatedButton(
-                        onPressed: null,
+
+                        onPressed: (){},
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromRGBO(19,15,255,24)  ,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(13.0)
                           ),
                           side: const BorderSide(
                             width: 1.0,
-                            color: Color.fromARGB(255, 255, 15, 24),
+                            color: Color.fromRGBO(8,10,128,24),
 
                           ),
                         ),

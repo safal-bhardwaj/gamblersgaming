@@ -49,7 +49,7 @@ class AccountScreen extends StatelessWidget{
                         ]
                     ),
                     alignment: Alignment.center,
-                    child: Image.asset('assets/Images/user.png', width: screenWidth * 0.2, height: screenHeight * 0.1,),
+                    child: Image.asset('assets/Images/Gamer/user.png', width: screenWidth * 0.2, height: screenHeight * 0.1,),
                   ),
                 ],
               ),
