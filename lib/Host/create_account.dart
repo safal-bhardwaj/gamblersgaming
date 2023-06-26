@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-class CreateAccount extends StatefulWidget{
-  const CreateAccount({super.key});
+class CreateAccountHost extends StatefulWidget{
+  const CreateAccountHost({super.key});
 
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<CreateAccountHost> createState() => _CreateAccountHostState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _CreateAccountHostState extends State<CreateAccountHost> {
   @override
   Widget build(context){
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
@@ -31,7 +31,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                            color: Color.fromARGB(255, 255, 15, 24),
+                            color: Color.fromRGBO(19, 15, 255, 24),
                             blurRadius: 20,
                             spreadRadius: 5
                         )

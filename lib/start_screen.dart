@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Gamer/account_screen.dart';
-//import 'Gamer/login_screen.dart';
+
+import 'Host/account_screen.dart';
 
 class StartScreen extends StatelessWidget{
   const StartScreen({super.key});
@@ -13,8 +14,7 @@ class StartScreen extends StatelessWidget{
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 10),
-      appBar: AppBar(title: const Text(" "),
-        backgroundColor:  Color.fromRGBO(0, 0, 0, 10),),
+
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,7 +65,7 @@ class StartScreen extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                        'assets/Images/game-controller (3).png',
+                        'assets/Images/Gamer/game-controller (3).png',
                       width: screenWidth * 0.18,
 
                     ),
@@ -88,7 +88,7 @@ class StartScreen extends StatelessWidget{
               decoration: const BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Color.fromARGB(255, 128, 8, 12),
+                        color: Color.fromRGBO(8,10,128,24),
                         blurRadius: 20,
                         spreadRadius: 5
                     ),
@@ -96,7 +96,9 @@ class StartScreen extends StatelessWidget{
                   borderRadius: BorderRadius.all(Radius.circular(10))
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AccountScreenHost()));
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     fixedSize: Size(screenWidth * 0.44, screenHeight * 0.18 ),
@@ -109,7 +111,7 @@ class StartScreen extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children : [
                     Image.asset(
-                  'assets/Images/game-controller (4).png',
+                  'assets/Images/Gamer/game-controller-host.png',
                   width: screenWidth * 0.17,
 
                 ),
@@ -135,7 +137,7 @@ class StartScreen extends StatelessWidget{
                 style: TextStyle(
                   fontFamily: 'ModernWarfare',
                   fontSize: 27,
-                  color: Colors.white,
+                  color: Color.fromRGBO(8,10,128,1),
 
                 ),
               ),
@@ -149,7 +151,7 @@ class StartScreen extends StatelessWidget{
                 style: TextStyle(
                     fontFamily: 'ModernWarfare',
                     fontSize: 27,
-                    color: Color.fromARGB(255, 255, 15, 24)
+                    color: Color.fromRGBO( 255, 255, 255 , 1)
                 ),
               ),
             ),

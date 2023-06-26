@@ -65,14 +65,16 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets\Images\GGLogo.png
-    - assets\Images\game-controller (3).png
-    - assets\Images\game-controller (4).png
-    - assets\Images\user.png
+    - assets\Images\Gamer\game-controller (3).png
+    - assets\Images\Gamer\game-controller (4).png
+    - assets\Images\Gamer\user.png
     - assets\Images\GG_BG1.png
-    - assets\Images\add.png
-    - assets\Images\user1.png
-    - assets\Images\lock.png
-    - assets\Images\login.png
+    - assets\Images\Gamer\add.png
+    - assets\Images\Gamer\user1.png
+    - assets\Images\Gamer\lock.png
+    - assets\Images\Gamer\login.png
+    - assets\Images\Host\user_host.png
+    - assets\Images\Gamer\game-controller-host.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

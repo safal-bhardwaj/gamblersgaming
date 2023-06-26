@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Host/create_account.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'create_account.dart';
-class LogInScreen extends StatelessWidget{
-  const LogInScreen({super.key});
+//import 'create_account.dart';
+class LogInScreenHost extends StatelessWidget{
+  const LogInScreenHost({super.key});
 
   @override
   Widget build(context) {
@@ -35,13 +36,13 @@ class LogInScreen extends StatelessWidget{
                           color: Colors.black,
                           boxShadow: [
                             BoxShadow(
-                                color: Color.fromARGB(255, 128, 8, 12),
+                                color: Color.fromRGBO(8,10,128,24),
                                 blurRadius: 18,
                                 spreadRadius: 5
                             )
                           ]
                       ),
-                      child: Image.asset('assets/Images/Gamer/user.png', alignment: Alignment.bottomCenter),
+                      child: Container(alignment: Alignment.center,child: Image.asset('assets/Images/Host/user_host.png',width: 70,height:70,fit: BoxFit.fitHeight,)),
                     ),
                   ],
                 ),
@@ -59,7 +60,7 @@ class LogInScreen extends StatelessWidget{
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(
                           width: 1,
-                          color: Color.fromARGB(255, 128, 8, 12),
+                          color: Color.fromRGBO(8,10,128,24),
                         )
                       ),
                       labelText: 'Email or UserName',
@@ -75,7 +76,7 @@ class LogInScreen extends StatelessWidget{
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               width: 1,
-                              color: Color.fromARGB(255, 128, 8, 12),
+                              color: Color.fromRGBO(8,10,128,24),
                             )
                         ),
                         labelText: 'Password',
@@ -89,7 +90,7 @@ class LogInScreen extends StatelessWidget{
 
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 255, 15, 24),
+                        backgroundColor: const Color.fromRGBO(19, 15, 255, 24),
                         fixedSize: const Size(150, 35),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
@@ -109,12 +110,12 @@ class LogInScreen extends StatelessWidget{
                 const SizedBox(height: 27,),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccount()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccountHost()));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         fixedSize: const Size(200, 35),
-                        side: const BorderSide(color: Color.fromARGB(255, 255, 15, 24), width: 1),
+                        side: const BorderSide(color: Color.fromRGBO(8,10,128,24), width: 1),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)
                         )
