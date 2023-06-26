@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamblersgaming/Splash.dart';
 import 'package:gamblersgaming/gg.dart';
+import 'package:gamblersgaming/start_screen.dart';
 //import 'gg.dart';
 //import 'start_screen.dart';
 
@@ -14,8 +15,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Splash(),
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: const Splash(),
     );
   }
 }

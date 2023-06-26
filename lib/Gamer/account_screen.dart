@@ -7,12 +7,16 @@ class AccountScreen extends StatelessWidget{
 
   @override
   Widget build(context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(""),
         backgroundColor:Color.fromRGBO(0, 0, 0, 10),
       ),
         body: Container(
+          width: screenWidth * 1,
+        height: screenHeight * 1,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/Images/GG_BG1.png'),
@@ -23,59 +27,69 @@ class AccountScreen extends StatelessWidget{
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/Images/GGLogo.png', width: 150,),
-              const SizedBox(height: 10,),
+              Image.asset('assets/Images/GGLogo.png',
+                width: screenWidth * 0.3,
+                height: screenHeight * 0.1,),
+              SizedBox(height: screenHeight * 0.01,),
               //UserIcon
               Column(
                 children: [
                   Container(
-                    width: 120,
-                    height: 120,
+                    width: screenWidth * 0.36,
+                    height: screenHeight * 0.18,
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.black,
                         boxShadow: [
                           BoxShadow(
-                              color: Color.fromARGB(255, 255, 15, 24),
-                              blurRadius: 15,
-                              spreadRadius: 4
+                              color: Color.fromARGB(255, 128, 8, 12),
+                              blurRadius: 25,
+                              spreadRadius: 6
                           )
                         ]
                     ),
-                    child: Image.asset('assets/Images/user.png', alignment: Alignment.bottomCenter,),
+                    alignment: Alignment.center,
+                    child: Image.asset('assets/Images/user.png', width: screenWidth * 0.2, height: screenHeight * 0.1,),
                   ),
                 ],
               ),
-              const SizedBox(height: 40,),
-              Text('WELCOME', style: GoogleFonts.orbitron(
-                  color: Colors.white, fontSize: 20)),
-              const SizedBox(height: 30,),
+              SizedBox(height: screenHeight * 0.06,),
+              SizedBox(
+                height: screenHeight * 0.05,
+                width: screenWidth * 0.5,
+                child: Text('WELCOME',
+                    textAlign: TextAlign.center
+                    ,style: GoogleFonts.orbitron(
+                    color: Colors.white, fontSize: 20)),
+              ),
+              SizedBox(height: screenHeight * 0.03,),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LogInScreen()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    fixedSize: const Size(220, 50),
-                    side: const BorderSide(color: Color.fromARGB(255, 255, 15, 24), width: 0.5),
+                    backgroundColor: Color.fromARGB(255, 255, 15, 24),
+                    fixedSize: Size(screenWidth * 0.5, screenHeight * 0.05),
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0)
                     )
                   ),
                   child: const Text('LOGIN' , style: TextStyle(
                       fontFamily: 'MSPGothic',
-                      color: Colors.white
+                      color: Colors.white,
+                    fontSize: 15
                   ))
               ),
-              const SizedBox(height: 30,),
+              SizedBox(height: screenHeight * 0.03,),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccount()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
-                      fixedSize: const Size(220, 50),
-                      side: const BorderSide(color: Color.fromARGB(255, 255, 15, 24), width: 0.4),
+                      fixedSize: Size(screenWidth * 0.5, screenHeight * 0.05),
+                      side: const BorderSide(color: Color.fromARGB(255, 128, 8, 12), width: 2),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)
                       )
@@ -85,7 +99,7 @@ class AccountScreen extends StatelessWidget{
                     color: Colors.white
                   ))
               ),
-              const SizedBox(height: 120,)
+              SizedBox(height: screenHeight * 0.15,)
             ],
           ),
         ),
