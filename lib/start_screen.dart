@@ -14,7 +14,7 @@ class StartScreen extends StatelessWidget{
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 10),
       appBar: AppBar(title: const Text(" "),
-        backgroundColor: Color.fromRGBO(0, 0, 0, 10),),
+        backgroundColor:  Color.fromRGBO(0, 0, 0, 10),),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
