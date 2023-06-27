@@ -51,9 +51,9 @@ class _CreateAccountState extends State<CreateAccount> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/Images/Gamer/user.png',
+                            'assets/Images/gallery.png',
                             width: screenWidth * 0.2, height: screenHeight * 0.1,
-                            color: const Color.fromARGB(255, 255, 15, 24),
+                            color: const Color.fromRGBO(128, 8, 12, 1),
                           ),
                         ],
                       )
