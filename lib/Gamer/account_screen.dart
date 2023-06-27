@@ -11,15 +11,15 @@ class AccountScreen extends StatelessWidget{
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
-        backgroundColor:Color.fromRGBO(0, 0, 0, 10),
+        title: const Text(""),
+        backgroundColor:const Color.fromRGBO(0, 0, 0, 10),
       ),
         body: Container(
           width: screenWidth * 1,
         height: screenHeight * 1,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/Images/GG_BG1.png'),
+            image: AssetImage('assets/Images/Gamer/GG_BG2.png'),
             fit: BoxFit.fill,
           )
         ),
@@ -65,10 +65,10 @@ class AccountScreen extends StatelessWidget{
               SizedBox(height: screenHeight * 0.03,),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LogInScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const LogInScreen()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 15, 24),
+                    backgroundColor: const Color.fromARGB(255, 255, 15, 24),
                     fixedSize: Size(screenWidth * 0.5, screenHeight * 0.05),
 
                     shape: RoundedRectangleBorder(
@@ -84,10 +84,10 @@ class AccountScreen extends StatelessWidget{
               SizedBox(height: screenHeight * 0.03,),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccount()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CreateAccount()));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
                       fixedSize: Size(screenWidth * 0.5, screenHeight * 0.05),
                       side: const BorderSide(color: Color.fromARGB(255, 128, 8, 12), width: 2),
                       shape: RoundedRectangleBorder(

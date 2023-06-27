@@ -70,7 +70,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                       decoration: InputDecoration(
                         isDense: true,
                         prefixIcon: Padding(
-                          padding: EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Image.asset(
                             'assets/Images/name.png',
                             width: 18,
@@ -233,7 +233,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
 
                         onPressed: (){},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(19,15,255,24)  ,
+                          backgroundColor: const Color.fromRGBO(19,15,255,24)  ,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(13.0)
                           ),

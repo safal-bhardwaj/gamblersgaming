@@ -9,12 +9,14 @@ class LogInScreen extends StatelessWidget{
   @override
   Widget build(context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
-        backgroundColor:Color.fromRGBO(0, 0, 0, 0),
+        title: const Text(""),
+        backgroundColor:const Color.fromRGBO(0, 0, 0, 0),
       ),
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -22,43 +24,37 @@ class LogInScreen extends StatelessWidget{
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                //Image.asset('assets/Images/GGLogo.png', width: 150,),
-                const SizedBox(height: 10,),
                 //UserIcon
-                Column(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromARGB(255, 128, 8, 12),
-                                blurRadius: 18,
-                                spreadRadius: 5
-                            )
-                          ]
-                      ),
-                      child: Image.asset('assets/Images/Gamer/user.png', alignment: Alignment.bottomCenter),
-                    ),
-                  ],
+                Container(
+                  width: screenWidth * 0.36,
+                  height: screenHeight * 0.18,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromARGB(255, 128, 8, 12),
+                            blurRadius: 18,
+                            spreadRadius: 5
+                        )
+                      ]
+                  ),
+                  child: Image.asset('assets/Images/Gamer/user.png', alignment: Alignment.center, width: screenWidth * 0.2, height: screenHeight * 0.1,),
                 ),
-                const SizedBox(height: 40,),
+                SizedBox(height: screenHeight * 0.05,),
                 Text(
                     'WELCOME BACK!',
                     style: GoogleFonts.orbitron(
                         color: Colors.white,
                         fontSize: 20)),
-                const SizedBox(height: 30,),
+                SizedBox(height: screenHeight * 0.03,),
                 SizedBox(
-                  width: 250,
+                  width: screenWidth * 0.6,
                   child: TextField(
                     decoration: InputDecoration(
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 1.5,
                           color: Color.fromARGB(255, 128, 8, 12),
                         )
                       ),
@@ -67,14 +63,14 @@ class LogInScreen extends StatelessWidget{
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
+                SizedBox(height: screenHeight * 0.02,),
                 SizedBox(
-                  width: 250,
+                  width: screenWidth * 0.6,
                   child: TextField(
                     decoration: InputDecoration(
                         enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
-                              width: 1,
+                              width: 1.5,
                               color: Color.fromARGB(255, 128, 8, 12),
                             )
                         ),
@@ -83,16 +79,16 @@ class LogInScreen extends StatelessWidget{
                     ),
                   ),
                 ),
-                const SizedBox(height: 40,),
+                SizedBox(height: screenHeight * 0.05,),
                 ElevatedButton(
                     onPressed: () {
 
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 255, 15, 24),
-                        fixedSize: const Size(150, 35),
+                        fixedSize: Size(screenWidth * 0.48, screenHeight * 0.03),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
+                            borderRadius: BorderRadius.circular(13.0)
                         )
                     ),
                     child: const Text('LOGIN' , style: TextStyle(
@@ -101,22 +97,22 @@ class LogInScreen extends StatelessWidget{
                       fontSize: 20
                     ))
                 ),
-                const SizedBox(height: 27,),
+                SizedBox(height: screenHeight * 0.03,),
                 Text('or', style: GoogleFonts.orbitron(
                   fontSize: 18,
                   color: Colors.white
                 )),
-                const SizedBox(height: 27,),
+                SizedBox(height: screenHeight * 0.03,),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccount()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CreateAccount()));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
-                        fixedSize: const Size(200, 35),
+                        fixedSize: Size(screenWidth * 0.48, screenHeight * 0.03),
                         side: const BorderSide(color: Color.fromARGB(255, 255, 15, 24), width: 1),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
+                            borderRadius: BorderRadius.circular(13.0)
                         )
                     ),
                     child: const Text('Create Account' , style: TextStyle(

@@ -13,7 +13,7 @@ class StartScreen extends StatelessWidget{
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 10),
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 10),
 
       body: Center(
         child: Column(
@@ -69,7 +69,7 @@ class StartScreen extends StatelessWidget{
                       width: screenWidth * 0.18,
 
                     ),
-                    //SizedBox(height: screenHeight * 0.01,),
+                    SizedBox(height: screenHeight * 0.01,),
                     Text(
                       'GAMER',
                       style: GoogleFonts.orbitron(
@@ -97,7 +97,7 @@ class StartScreen extends StatelessWidget{
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AccountScreenHost()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const AccountScreenHost()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
