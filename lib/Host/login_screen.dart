@@ -4,8 +4,18 @@ import 'package:gamblersgaming/Host/create_account.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 //import 'create_account.dart';
-class LogInScreenHost extends StatelessWidget{
+class LogInScreenHost extends StatefulWidget{
   const LogInScreenHost({super.key});
+
+  @override
+  State<LogInScreenHost> createState() => _LogInScreenHostState();
+}
+
+class _LogInScreenHostState extends State<LogInScreenHost> {
+
+  var _isLogin = true;
+
+
 
   @override
   Widget build(context) {
@@ -96,7 +106,7 @@ class LogInScreenHost extends StatelessWidget{
                             borderRadius: BorderRadius.circular(10.0)
                         )
                     ),
-                    child: const Text('LOGIN' , style: TextStyle(
+                    child: Text(_isLogin ? 'LOGIN' : 'SIGNUP' , style: TextStyle(
                         fontFamily: 'MSPGothic',
                         color: Colors.white,
                       fontSize: 20
@@ -110,7 +120,9 @@ class LogInScreenHost extends StatelessWidget{
                 const SizedBox(height: 27,),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CreateAccountHost()));
+                      setState(() {
+                        _isLogin = _isLogin? false : true;
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -120,7 +132,7 @@ class LogInScreenHost extends StatelessWidget{
                             borderRadius: BorderRadius.circular(10.0)
                         )
                     ),
-                    child: const Text('Create Account' , style: TextStyle(
+                    child: Text( _isLogin ? 'Create Account' : 'LOGIN' , style: TextStyle(
                         fontFamily: 'MSPGothic',
                         color: Colors.white,
                         fontSize: 20

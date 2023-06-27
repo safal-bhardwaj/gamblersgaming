@@ -1,26 +1,105 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Home.dart';
 import 'package:google_fonts/google_fonts.dart';
-class CreateAccount extends StatefulWidget{
-  const CreateAccount({super.key});
+import 'package:image_picker/image_picker.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class CreateAccount extends StatefulWidget {
+
+  final String? phone;
+
+  const CreateAccount({Key? key, this.phone})
+      : super(key: key);
 
   @override
   State<CreateAccount> createState() => _CreateAccountState();
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+
+
+  File? _pickedImageFile;
+  String _pickedImagePath = "";
+  final _formKey2 = GlobalKey<FormState>();
+  var _isUploading = false;
+
+  // data vars
+
+  String _username = "";
+  String _email = "";
+  String _UPI = "";
+
+  //functions
+
+  void _pickImage() async {
+    final pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.camera, maxWidth: 1000, maxHeight: 2000);
+    if (pickedImage == null)
+      return;
+    setState(() {
+      _pickedImagePath = pickedImage.path;
+      _pickedImageFile = File(_pickedImagePath);
+    });
+  }
+
+  void _signUP() async
+  {
+    final isValid = _formKey2.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey2.currentState!.save();
+    setState(() {
+      _isUploading = true;
+    });
+    final storageRef = FirebaseStorage.instance.ref()
+        .child('User_Images')
+        .child('${widget.phone}.jpg');
+    await storageRef.putFile(_pickedImageFile!);
+    final _imageURL = await storageRef.getDownloadURL();
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc('${widget.phone}')
+        .set({
+      'Username' : _username,
+      'Image-Url' : _imageURL ,
+      'E-mail' : _email,
+      'UPI-ID' : _UPI
+    });
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen()));
+  }
+
+
   @override
-  Widget build(context){
-    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+  Widget build(context) {
+    final keyboardSpace = MediaQuery
+        .of(context)
+        .viewInsets
+        .bottom;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor:const Color.fromRGBO(0, 0, 0, 10),
+        backgroundColor: const Color.fromRGBO(0, 0, 0, 10),
       ),
-      backgroundColor:const Color.fromRGBO(0, 0, 0, 10),
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 10),
       body: Center(
-        child: SingleChildScrollView(
+        child: _isUploading
+            ? const CircularProgressIndicator(color:
+        Color.fromRGBO(255, 15, 24, 1), backgroundColor: Colors.white,)
+            : SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, keyboardSpace),
             child: Column(
@@ -39,22 +118,31 @@ class _CreateAccountState extends State<CreateAccount> {
                         )
                       ]
                   ),
-                  child: ElevatedButton(
-                      onPressed: () {},
+                  child:
+                  ElevatedButton(
+                      onPressed: _pickImage,
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
-                          fixedSize: Size(screenWidth * 0.36, screenHeight * 0.18,),
+                          fixedSize: Size(
+                            screenWidth * 0.36, screenHeight * 0.18,),
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(16.0)
                       ),
-                      child : Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/Images/Gamer/user.png',
-                            width: screenWidth * 0.2, height: screenHeight * 0.1,
-                            color: const Color.fromARGB(255, 255, 15, 24),
-                          ),
+
+                          _pickedImageFile == null ? Image.asset(
+
+                            'assets/Images/gallery.png',
+                            width: screenWidth * 0.2, height: screenHeight *
+                              0.1,
+                            color: const Color.fromRGBO(128, 8, 12, 1),
+                          ) :
+                          CircleAvatar(
+                            radius: 59,
+                            foregroundImage: FileImage(_pickedImageFile!),
+                          )
                         ],
                       )
                   ),
@@ -63,192 +151,156 @@ class _CreateAccountState extends State<CreateAccount> {
                 SizedBox(
                   width: screenWidth * 0.4,
                   height: screenHeight * 0.03,
-                  child: Text('WELCOME', textAlign: TextAlign.center ,style: GoogleFonts.orbitron(
-                      color: Colors.white, fontSize: 20)),
+                  child: Text('WELCOME', textAlign: TextAlign.center,
+                      style: GoogleFonts.orbitron(
+                          color: Colors.white, fontSize: 20)),
                 ),
-            SizedBox(height: screenHeight * 0.02,),
-            Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/name.png',
-                            width: screenWidth * 0.05,
-                            height: screenHeight * 0.05,
+                SizedBox(height: screenHeight * 0.02,),
+                Form(
+                  key: _formKey2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        width: screenWidth * 0.6,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Image.asset(
+                                'assets/Images/user1.png',
+                                width: screenWidth * 0.05,
+                                height: screenHeight * 0.05,),
+                            ),
+                            hintText: 'Enter your Name',
+                            labelText: 'Your Name',
+                            contentPadding: const EdgeInsets.all(0.0),
+                            labelStyle: GoogleFonts.getFont(
+                                'Orbitron', color: Colors.white, fontSize: 14),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.2,
+                                  color: Color.fromRGBO(128, 8, 12, 1),
+                                )
+                            ),
                           ),
-                          ),
-                        hintText: 'Enter your name',
-                        labelText: 'Full Name',
-                        contentPadding: const EdgeInsets.all(0.0),
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(128, 8, 12, 1),
+                          validator: (value) {
+                            if (value == null || value.trim() == "")
+                              return "This field can't be null!";
+                          },
+                          onSaved: (value) {
+                            _username = value!;
+                          },
+                        ),
 
-                            )
-                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01,),
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/user1.png',
-                          ),
-                        ),
-                        hintText: 'Enter your name',
-                        labelText: 'UserName',
-                        contentPadding: const EdgeInsets.all(0.0),
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1.2,
-                              color: Color.fromRGBO(128, 8, 12, 1),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01,),
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: const EdgeInsets.all(0.0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/lock.png',
-                          ),
-                        ),
-                        hintText: 'Enter Password',
-                        labelText: 'Password',
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1.3,
-                              color: Color.fromRGBO(128, 8, 12, 1),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01,),
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/login.png',
-                          ),
-                        ),
-                        hintText: 'Confirm you Password',
-                        labelText: 'Confirm Password',
-                        contentPadding: const EdgeInsets.all(0.0),
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(128, 8, 12, 1),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01,),
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/email.png',
-                            width: screenWidth * 0.05,
-                            height: screenHeight * 0.05,
-                          ),
-                        ),
-                        isDense: true,
-                        contentPadding: const EdgeInsets.all(0.0),
-                        hintText: 'Enter Email Address',
-                        labelText: 'Email Address',
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color.fromRGBO(128, 8, 12, 1),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01,),
-                  SizedBox(
-                    width: screenWidth * 0.6,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.asset(
-                            'assets/Images/UPI.png',
-                            width: screenWidth * 0.05,
-                            height: screenHeight * 0.05,
-                          ),
-                        ),
-                        isDense: true,
-                        hintText: 'Enter UPI Id',
-                        labelText: 'UPI Id / Number',
-                        contentPadding: const EdgeInsets.all(0.0),
-                        labelStyle: GoogleFonts.getFont('Orbitron', color: Colors.white, fontSize: 14),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1.2,
-                              color: Color.fromRGBO(128, 8, 12, 1),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: screenWidth * 0.5,
+                      SizedBox(height: screenHeight * 0.01,),
 
-                      padding: const EdgeInsets.only(left: 40.0, top : 40),
-                      child: ElevatedButton(
-                        onPressed: (){
-
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(255, 15, 24, 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13.0)
+                      SizedBox(
+                        width: screenWidth * 0.6,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Image.asset(
+                                'assets/Images/email.png',
+                                width: screenWidth * 0.05,
+                                height: screenHeight * 0.05,
+                              ),
+                            ),
+                            isDense: true,
+                            contentPadding: const EdgeInsets.all(0.0),
+                            hintText: 'Enter Email Address',
+                            labelText: 'Email Address',
+                            labelStyle: GoogleFonts.getFont(
+                                'Orbitron', color: Colors.white, fontSize: 14),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(128, 8, 12, 1),
+                                )
+                            ),
                           ),
-
+                          validator: (value) {
+                            if (value == null || value.trim() == "")
+                              return "This field can't be null!";
+                            bool isvalid = EmailValidator.validate(value);
+                            if (!isvalid) return "Enter a valid Email!";
+                          },
+                          onSaved: (value) {
+                            _email = value!;
+                          },
                         ),
-                        child: Text('SIGNUP' , style: GoogleFonts.orbitron(
-                            color: Colors.white, fontSize: 17 ),),
-                      )),
-                ],
-              ),
-            ),
-            ],
+                      ),
+                      SizedBox(height: screenHeight * 0.01,),
+                      SizedBox(
+                        width: screenWidth * 0.6,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Image.asset(
+                                'assets/Images/UPI.png',
+                                width: screenWidth * 0.05,
+                                height: screenHeight * 0.05,
+                              ),
+                            ),
+                            isDense: true,
+                            hintText: 'Enter UPI Id',
+                            labelText: 'UPI Id / Number',
+                            contentPadding: const EdgeInsets.all(0.0),
+                            labelStyle: GoogleFonts.getFont(
+                                'Orbitron', color: Colors.white, fontSize: 14),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.2,
+                                  color: Color.fromRGBO(128, 8, 12, 1),
+                                )
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim() == "")
+                              return "This field can't be null!";
+                          },
+                          onSaved: (value) {
+                            _UPI = value!;
+                          },
+                        ),
+                      ),
+                      Container(
+                          width: screenWidth * 0.5,
+
+                          padding: const EdgeInsets.only(left: 40.0, top: 40),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_pickedImagePath == "") {
+                                const snackBar = SnackBar(
+                                  content: Text('Upload Image and Retry!',
+                                    style: TextStyle(fontFamily: 'MSPGothic'),),
+                                  backgroundColor: Colors.white,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar);
+                                return;
+                              }
+                              _signUP();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromRGBO(
+                                  255, 15, 24, 1),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.0)
+                              ),
+
+                            ),
+                            child: Text('SIGNUP', style: GoogleFonts.orbitron(
+                                color: Colors.white, fontSize: 17),),
+                          )),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

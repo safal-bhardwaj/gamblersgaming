@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "699948710293",
+    "project_id": "gamblers-gaming-test",
+    "storage_bucket": "gamblers-gaming-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699948710293:android:cc62b92f28e627de7e1e9c",
+        "android_client_info": {
+          "package_name": "com.example.gamblersgaming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699948710293-gsrb4a9sgqkadcpcq7d95kpo8nlhtcae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaowo7vzFEcIxKJyJI9ThDZur8WNKgcz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699948710293-gsrb4a9sgqkadcpcq7d95kpo8nlhtcae.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "699948710293-un06q389g1q4tke7asd3qmu991qpo7cs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gamblersgaming"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

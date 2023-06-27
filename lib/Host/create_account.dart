@@ -49,7 +49,7 @@ class _CreateAccountHostState extends State<CreateAccountHost> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/Images/Gamer/user.png',
+                            'assets/Images/gallery.png',
                             width: 70,
                             color: const Color.fromRGBO(8,10,128,24),
                           ),
