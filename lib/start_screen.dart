@@ -137,7 +137,7 @@ class StartScreen extends StatelessWidget{
                 style: TextStyle(
                   fontFamily: 'ModernWarfare',
                   fontSize: 27,
-                  color: Color.fromRGBO(8,10,128,1),
+                  color: Color.fromRGBO(255,15,24,1),
 
                 ),
               ),
