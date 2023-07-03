@@ -179,6 +179,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       onSaved: (value){
                         _OTP = value!;
                       },
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.05,),

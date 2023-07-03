@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class CreateAccount extends StatefulWidget {
 
@@ -33,6 +35,10 @@ class _CreateAccountState extends State<CreateAccount> {
   String _username = "";
   String _email = "";
   String _UPI = "";
+  String _age= "";
+  String? _currentAddress;
+  Position? _currentPosition;
+
 
   //functions
 
@@ -62,6 +68,9 @@ class _CreateAccountState extends State<CreateAccount> {
         .child('${widget.phone}.jpg');
     await storageRef.putFile(_pickedImageFile!);
     final _imageURL = await storageRef.getDownloadURL();
+
+    await _getCurrentPosition();
+
     await FirebaseFirestore.instance
         .collection('Users')
         .doc('${widget.phone}')
@@ -69,9 +78,80 @@ class _CreateAccountState extends State<CreateAccount> {
       'Username' : _username,
       'Image-Url' : _imageURL ,
       'E-mail' : _email,
-      'UPI-ID' : _UPI
-    });
+      'UPI-ID' : _UPI,
+      'Loacation' : _currentAddress,
+      'Age' : _age,
+        });
+
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen()));
+  }
+ //Location function
+
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    print(1);
+    permission = await Geolocator.checkPermission();
+    print(2);
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      print(3);
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    print(4);
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    print(5);
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async{
+      print(6);
+      setState(() => _currentPosition = position);
+      print(7);
+      await _getAddressFromLatLng(_currentPosition!);
+      print(8);
+      return;
+
+    }).catchError((e) {
+      print("error");
+      return;
+    });
+  }
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+        _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+        '${place.locality},${place.subAdministrativeArea}, ${place.administrativeArea},${place.country}';
+      });
+    }).catchError((e) {
+      return;
+    });
   }
 
 
@@ -185,6 +265,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                 )
                             ),
                           ),
+                          keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value == null || value.trim() == "")
                               return "This field can't be null!";
@@ -222,6 +303,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                 )
                             ),
                           ),
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value.trim() == "")
                               return "This field can't be null!";
@@ -268,6 +350,43 @@ class _CreateAccountState extends State<CreateAccount> {
                           },
                         ),
                       ),
+                  SizedBox(height: screenHeight * 0.01,),
+                SizedBox(
+                  width: screenWidth * 0.6,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          'assets/Images/name.png',
+                          width: screenWidth * 0.05,
+                          height: screenHeight * 0.05,
+                        ),
+                      ),
+                      isDense: true,
+                      hintText: 'Enter Your Age ',
+                      labelText: 'Your Age',
+                      contentPadding: const EdgeInsets.all(0.0),
+                      labelStyle: GoogleFonts.getFont(
+                          'Orbitron', color: Colors.white, fontSize: 14),
+                      enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.2,
+                            color: Color.fromRGBO(128, 8, 12, 1),
+                          )
+                      ),
+                    ),
+                    keyboardType: TextInputType.number
+                    ,
+                    validator: (value) {
+                      if (value == null || value.trim() == "")
+                        return "This field can't be null!";
+                    },
+                    onSaved: (value) {
+                      _age = value!;
+                    },
+                  ),
+                ),
                       Container(
                           width: screenWidth * 0.5,
 
