@@ -16,8 +16,8 @@ class AccountScreen extends StatelessWidget{
       ),
         body: Container(
           width: screenWidth * 1,
-        height: screenHeight * 1,
-        decoration: const BoxDecoration(
+          height: screenHeight * 1,
+          decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/Images/Gamer/GG_BG2.png'),
             fit: BoxFit.fill,

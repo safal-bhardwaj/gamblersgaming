@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'Gamer/account_screen.dart';
-
 import 'Host/account_screen.dart';
+
 
 class StartScreen extends StatelessWidget{
   const StartScreen({super.key});
@@ -67,7 +66,6 @@ class StartScreen extends StatelessWidget{
                     Image.asset(
                         'assets/Images/Gamer/game-controller (3).png',
                       width: screenWidth * 0.18,
-
                     ),
                     SizedBox(height: screenHeight * 0.01,),
                     Text(
@@ -77,85 +75,10 @@ class StartScreen extends StatelessWidget{
                           fontSize: 17
                       ),),
                   ],
+                ),
                 )
               ),
-            ),
-            //GameMakerButton
-            SizedBox(height: screenHeight * 0.06,),
-            Container(
-              width: screenWidth * 0.44,
-              height: screenHeight * 0.18 ,
-              decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromRGBO(8,10,128,24),
-                        blurRadius: 20,
-                        spreadRadius: 5
-                    ),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-              ),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const AccountScreenHost()));
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    fixedSize: Size(screenWidth * 0.44, screenHeight * 0.18 ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    padding: const EdgeInsets.all(16.0)
-                ),
-                child : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children : [
-                    Image.asset(
-                  'assets/Images/Gamer/game-controller-host.png',
-                  width: screenWidth * 0.17,
-
-                ),
-                    SizedBox(height: screenHeight * 0.01,),
-                    Text(
-                      'GAME MAKER',
-                      style: GoogleFonts.orbitron(
-                          color: Colors.white,
-                          fontSize: 17
-                      ),),
-                  ]),
-                )
-              ),
-
-            const SizedBox(height:40 ),
-            //GamblersGamingText
-            SizedBox(
-              width: screenWidth * 0.5,
-              height: screenHeight * 0.03,
-              child: const Text(
-                "GAMBLERS",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'ModernWarfare',
-                  fontSize: 27,
-                  color: Color.fromRGBO(255,15,24,1),
-
-                ),
-              ),
-            ),
-            SizedBox(
-              width: screenWidth * 0.5,
-              height: screenHeight * 0.03,
-              child: const Text(
-                "GAMING",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'ModernWarfare',
-                    fontSize: 27,
-                    color: Color.fromRGBO( 255, 255, 255 , 1)
-                ),
-              ),
-            ),
-          ],
+        ],
         ),
       ),
     );
