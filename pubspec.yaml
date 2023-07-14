@@ -79,6 +79,7 @@ flutter:
     - assets\Images\homeicon.png
     - assets\Images\homeicon1.png
     - assets\Images\usericon.png
+    - assets\Images\usericon1.png
     - assets\Images\leaderboard.png
     - assets\Images\leaderboard1.png
     - assets\Images\loupe.png
@@ -86,13 +87,14 @@ flutter:
     - assets\Images\img1.png
     - assets\Images\img2.png
     - assets\Images\img3.png
+    - assets\Images\img4.jpg
     - assets\Images\Gamer\game-controller (3).png
     - assets\Images\Gamer\game-controller (4).png
     - assets\Images\Gamer\user.png
     - assets\Images\GG_BG1.png
     - assets\Images\Gamer\GG_BG2.png
     - assets\Images\Gamer\add.png
-    - assets\Images\user1.png
+    - assets\Images\user (1).png
     - assets\Images\lock.png
     - assets\Images\login.png
     - assets\Images\Host\user_host.png
@@ -101,6 +103,9 @@ flutter:
     - assets\Images\UPI.png
     - assets\Images\email.png
     - assets\Images\gallery.png
+    - assets\Images\chips.png
+    - assets\Images\close.png
+    - assets\Images\crown.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -120,5 +125,8 @@ flutter:
     - family: MSPGothic
       fonts:
         - asset: fonts/mspgothic.ttf
+    - family: Orbitron
+      fonts:
+        - asset: fonts/Orbitron.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

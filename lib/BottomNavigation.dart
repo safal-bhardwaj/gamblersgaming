@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Home.dart';
 import 'package:gamblersgaming/HomeScreen.dart';
 import 'SearchScreen.dart';
 
@@ -20,7 +21,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(context) {
     Widget activePage = const HomeScreen();
     if(_selectedPageIndex == 1){
-      activePage = const SearchScreen();
+      activePage = const Home();
     }
     return Scaffold(
       body: activePage,
@@ -33,22 +34,27 @@ class _BottomNavigationState extends State<BottomNavigation> {
         child: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-              icon: Image.asset('assets/Images/homeicon.png'),
-              activeIcon: Image.asset('assets/Images/homeicon1.png'),
+              icon: SizedBox(width: 25,child: Image.asset('assets/Images/homeicon1.png')),
+              activeIcon: SizedBox(width: 25,child: Image.asset('assets/Images/homeicon.png')),
               label: ' ',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/Images/loupe.png'),
-              activeIcon: Image.asset('assets/Images/loupe1.png'),
+              icon: SizedBox(
+                width: 25,
+                  child: Image.asset('assets/Images/loupe.png')),
+              activeIcon: SizedBox(
+                  width: 25,
+                  child: Image.asset('assets/Images/loupe1.png')),
               label: ' ',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/Images/leaderboard.png'),
-              activeIcon: Image.asset('assets/Images/leaderboard1.png'),
+              icon: SizedBox(width: 25,child: Image.asset('assets/Images/leaderboard1.png')),
+              activeIcon: SizedBox(width: 25,child: Image.asset('assets/Images/leaderboard.png')),
               label: ' ',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/Images/usericon.png'),
+              icon: SizedBox(width: 25,child: Image.asset('assets/Images/usericon.png')),
+              activeIcon: SizedBox(width: 25,child: Image.asset('assets/Images/usericon1.png')),
               label: ' ',
             ),
           ],

@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/BottomNavigation.dart';
 import 'package:gamblersgaming/Home.dart';
 import 'package:gamblersgaming/start_screen.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../HomeScreen.dart';
 import 'create_account.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -85,7 +87,7 @@ class _LogInScreenState extends State<LogInScreen> {
       }
     else
       {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomeScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> BottomNavigation()));
       }
   }
 
