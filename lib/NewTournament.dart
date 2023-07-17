@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class NewTournament extends StatefulWidget {
@@ -12,13 +13,21 @@ class NewTournament extends StatefulWidget {
 
 
 class _NewTournamentState extends State<NewTournament> {
-  String dropdownvalue = 'Select Game';
   var items = [
-    'Select Game',
+    'BGMI',
     'FreeFire',
     'Asphalt',
-    'BGMI',
+    'New State',
     'Call of Duty Mobile'
+  ];
+  String dropdownvalue = 'BGMI';
+
+  final List<String> img = [
+    'assets/Images/bgmi.jpg',
+    'assets/Images/freefire.png',
+    'assets/Images/asphalt.jpg',
+    'assets/Images/newstate.jpg',
+    'assets/Images/callofduty.jpg'
   ];
   final _titlecontroller = TextEditingController();
   TextEditingController timeInput = TextEditingController();
@@ -79,379 +88,500 @@ class _NewTournamentState extends State<NewTournament> {
   FocusNode focusNode2 = FocusNode();
   Color borderColor = const Color.fromRGBO(128, 8, 12, 10);
   bool _showButton = false;
+  bool _showrestbuttons = true;
+  int _img = 0;
   @override
   Widget build(context) {
-    return Container(
-      color: Colors.black,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: SingleChildScrollView(
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(20, 20, 20, 1),
+      body: SingleChildScrollView(
 
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16,16,16,MediaQuery.of(context).size.height),
-            child: Column(
+        child: Column(
+          children: [
+            Row(
               children: [
-                Align(
-                    child: Container(
-                      color: Colors.white,
-                      child: DropdownButton<String>(
-                  value: dropdownvalue,
-                  dropdownColor: Colors.white,
-                  borderRadius: BorderRadius.circular(13),
-                  items: items.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-
-                        child: Text(
-                          items,
-                          style:
-                              const TextStyle(fontSize: 17, fontFamily: 'Orbitron', color: Color.fromRGBO(128, 8, 12, 10)),
-                        ),
-                      );
-                  }).toList(),
-
-                  onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                        _showButton = dropdownvalue == items[2];
-                      });
-                  },
-                ),
-                    )),
-                Visibility(
-                  visible: _showButton,
-                    child: ElevatedButton(
-                      onPressed: () {  },
-                      child: Text('button'),
-
-                    )
-                ),
-                const SizedBox(height: 15),
-                TextField(
-                  controller: _titlecontroller,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    label: Text(
-                      'Tournament Name',
-                      style: TextStyle(
-                          fontFamily: 'MSPGothic',
-                          fontSize: 20,
-                          color: Colors.white),
-                    ),
-                    isDense: true,
-                    contentPadding: EdgeInsets.all(0.0),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      width: 1.2,
-                      color: Color.fromRGBO(128, 8, 12, 1),
-                    )),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    //Date-picker
-                    Expanded(
-                        child: Row(
+                //Date-picker
+                Expanded(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextButton(
-                          onPressed: _presentdatepicker,
-                          style:
-                              TextButton.styleFrom(
-                                foregroundColor: Colors.white,
+                        Padding(
+                          padding:  EdgeInsets.fromLTRB(screenWidth * 0.01,0,0, screenHeight * 0.01,),
+                          child: TextButton(
+                            onPressed: _presentdatepicker,
+                            style:
+                            TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                            ),
+                            child: Row(children: [
+                              const Icon(Icons.calendar_month),
+                              SizedBox(
+                                width: screenWidth * 0.02,
+                              ),
+                              SizedBox(
+                                width: screenWidth*0.3,
+                                child: Text(
+                                  selectedDate == null
+                                      ? 'Date'
+                                      : formatter.format(selectedDate!),
+                                  style: const TextStyle(
+                                      fontFamily: 'MSPGothic', fontSize: 16),
                                 ),
-                          child: Row(children: [
-                            const Icon(Icons.calendar_month),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              selectedDate == null
-                                  ? 'Date'
-                                  : formatter.format(selectedDate!),
-                              style: const TextStyle(
-                                  fontFamily: 'MSPGothic', fontSize: 17),
-                            ),
-                          ]),
+                              ),
+                            ]),
+                          ),
                         ),
                       ],
                     )),
-
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TextButton(
-                              onPressed: _timePicker,
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.white,
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.watch_later_outlined),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.03,0,screenWidth * 0.01, screenHeight * 0.01,),
+                        child: TextButton(
+                            onPressed: _timePicker,
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: screenWidth*0.3,
+                                  child: Text(
                                     timeOfDay == null
                                         ? 'Time'
                                         : timeOfDay!.format(context).toString(),
                                     style: const TextStyle(
-                                        fontFamily: 'MSPGothic', fontSize: 17),
+                                        fontFamily: 'MSPGothic', fontSize: 16),
+                                    textAlign: TextAlign.end,
                                   ),
-                                ],
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
+                                ),
+                                SizedBox(
+                                  width: screenWidth*0.02,
+                                ),
+                                const Icon(Icons.watch_later_outlined),
+                              ],
+                            )),
+                      )
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(85,8,8,8),
-                      child: const Text(
-                        'Prize Pool:',
-                        style: TextStyle(fontFamily: 'MSPGothic', fontSize: 17),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(1,8,8,8),
-                      child: Container(
-                        width: 90,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: borderColor, width: 2),
-                          borderRadius: BorderRadius.circular(4),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(screenWidth*0.01, screenHeight*0.03, screenWidth*0.01, screenHeight*0.03 ),
+               child: Column(
+                 mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: screenWidth * 0.4,
+                    height: screenHeight * 0.05,
+                    child: DropdownButtonFormField<String>(
+                      //menuMaxHeight: 200,
+                      itemHeight: null,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder( //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(20.5),
                         ),
-                        child: SizedBox(
-                          width: 90,
-                          height: 25,
-                          child: TextField(
-                            focusNode: focusNode1,
-                            controller: prizePool,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              label: Text(''),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                        focusedBorder:  OutlineInputBorder( //<-- SEE HERE
+                          borderRadius: BorderRadius.circular(20.5),
+                        ),
+                        border: InputBorder.none,
+
+                        filled: true,
+                        contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.032 , screenHeight * 0.01, screenWidth * 0.031, screenHeight* 0.01),
+                        fillColor: Colors.white,
+                      ),
+                      dropdownColor: Colors.white,
+                      value: dropdownvalue,
+                      // isExpanded: true,
+                      // elevation: 20,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownvalue = newValue!;
+                          _showButton = dropdownvalue == items[2];
+                          if(dropdownvalue != items[2]){
+                            _showrestbuttons = true;
+                          }
+                          else{
+                            _showrestbuttons = false;
+                          }
+                          if(dropdownvalue == items[0]){
+                            _img = 0;
+                          }
+                          if(dropdownvalue == items[1]){
+                            _img = 1;
+                          }
+                          if(dropdownvalue == items[2]){
+                            _img = 2;
+                          }
+                          if(dropdownvalue == items[3]){
+                            _img = 3;
+                          }
+                          if(dropdownvalue == items[4]){
+                            _img = 4;
+                          }
+                        });
+                        },
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(
+                              items,
+                              style:
+                                  const TextStyle(fontSize: 12, fontFamily: 'Orbitron', color: Color.fromRGBO(128, 8, 12, 10)),
+                            ),
+                          );
+                          }).toList(),
+                      icon: Image.asset('assets/Images/downarrow.png', width: screenWidth * 0.04,),
+                    ),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.05),
+                  SizedBox(
+                    width: screenWidth * 0.6,
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: _titlecontroller,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        label: Center(
+                          child: Text(
+                            'Tournament Name',
+                            style: TextStyle(
+                                fontFamily: 'Orbitron',
+                                fontSize: 16,
+                                color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(0.0),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                          width: 1.2,
+                          color: Color.fromRGBO(128, 8, 12, 1),
+                        )),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
+
+                  Row(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        child: const Text(
+                          'Registration Fee        :',
+                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.1,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(screenWidth*0.001,screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        child: Container(
+                          width: screenWidth * 0.25,
+                          height: screenHeight * 0.037,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: borderColor, width: 2),
+                            borderRadius: BorderRadius.circular(20.5),
+                            color: Colors.white
+                          ),
+                          child: SizedBox(
+                            width: screenWidth * 0.25,
+                            height: screenHeight * 0.037,
+                            child: TextField(
+                              focusNode: focusNode1,
+                              controller: prizePool,
+                              keyboardType: TextInputType.number,
+                              style: const TextStyle(color: Color.fromRGBO(128, 8, 12, 10)),
+                              decoration: InputDecoration(
+                                label: Text(''),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.03, 0, 0, screenHeight * 0.013),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.asset(
-                      'assets/Images/chips.png',
-                      width: 20,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(85,8,8,8),
-                      child: const Text(
-                        'Reg. Fee:',
-                        style: TextStyle(fontFamily: 'MSPGothic', fontSize: 17),
+                      SizedBox(
+                        width: screenWidth * 0.01,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(12,8,8,8),
-                      child: Container(
-                        width: 90,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: borderColor, width: 2),
-                          borderRadius: BorderRadius.circular(4),
+                      Image.asset(
+                        'assets/Images/chips.png',
+                        width: screenWidth * 0.055,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
+                  ),
+                  Row(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        child: const Text(
+                          'Prize Pool                :',
+                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
                         ),
-                        child: SizedBox(
-                          width: 90,
-                          height: 25,
-                          child: TextField(
-                            focusNode: focusNode2,
-                            controller: regPrice,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              label: Text(''),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                )),
+                      ),
+                      SizedBox(
+                        width: screenWidth*0.1,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(screenWidth*0.001,screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        child: Container(
+                          width: screenWidth * 0.25,
+                          height: screenHeight * 0.037,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: borderColor, width: 2),
+                            borderRadius: BorderRadius.circular(20.5),
+                            color: Colors.white
                           ),
-                        ),
-                    ),
+                          child: SizedBox(
+                            width: screenWidth * 0.25,
+                            height: screenHeight * 0.037,
+                            child: TextField(
+                              focusNode: focusNode2,
+                              controller: regPrice,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                label: Text(''),
+                                border: InputBorder.none,
+                                contentPadding:EdgeInsets.fromLTRB(screenWidth * 0.03, 0, 0, screenHeight * 0.013),
+                                  ),
+                              style: const TextStyle(color: Color.fromRGBO(128, 8, 12, 10)),
+                            ),
+                            ),
+                          ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.01,
+                      ),
+                      Image.asset(
+                        'assets/Images/chips.png',
+                        width: screenWidth * 0.055,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: RichText(text: const TextSpan(
+                          text: 'Prize',
+                          style: TextStyle(
+                            fontFamily: 'Orbitron',
+                            color: Color.fromRGBO(255, 15, 24, 10),
+                            fontSize: 16
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' Distribution',
+                                style: TextStyle(
+                                    fontFamily: 'Orbitron',
+                                    color: Colors.white,
+                                  fontSize: 16
+                                )
+                            )
+                          ]
+                      ),),
 
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.asset(
-                      'assets/Images/chips.png',
-                      width: 20,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 15),
-                const Text('Prize Distribution', style:  TextStyle(fontFamily: 'Orbitron', fontSize: 20, color: Color.fromRGBO(255, 15, 24, 10)),),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: (){ },
-                      style: TextButton.styleFrom(
-                        side: BorderSide(
-                          width: 2,
-                          color: Color.fromRGBO(128, 8, 12, 10),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13)
-                        ),
-                        foregroundColor: Colors.white
-                      ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
+                  ),
+                  Visibility(
+                      visible: _showButton,
+                      child:SizedBox(
+                        width: screenWidth * 0.23,
 
-                      child: Row(
-                          children: [
-                            Image.asset('assets/Images/crown.png', width: 20, color: Colors.white,),
-                            SizedBox(width: 5,),
-                            Text('Top 1' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 17,),),
-                          ],
+                        child: ElevatedButton(
+                          onPressed: (){ },
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.5)
+                              ),
+                              backgroundColor: Colors.white
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                              const SizedBox(width: 2,),
+                              Text('Top 2' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                            ],
+                          ),
                         ),
-                    ),
-                    SizedBox(width: 9,),
-                    TextButton(
-                      onPressed: (){ },
-                      style: TextButton.styleFrom(
-                          side: BorderSide(
-                            width: 2,
-                            color: Color.fromRGBO(128, 8, 12, 10),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13)
-                          ),
-                          foregroundColor: Colors.white
                       ),
-
-                      child: Row(
-                        children: [
-                          Image.asset('assets/Images/crown.png', width: 20, color: Colors.white,),
-                          SizedBox(width: 5,),
-                          Text('Top 3' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 17,),),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 9,),
-                    TextButton(
-                      onPressed: (){ },
-                      style: TextButton.styleFrom(
-                          side: BorderSide(
-                            width: 2,
-                            color: Color.fromRGBO(128, 8, 12, 10),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13)
-                          ),
-                          foregroundColor: Colors.white
-                      ),
-
-                      child: Row(
-                        children: [
-                          Image.asset('assets/Images/crown.png', width: 20, color: Colors.white,),
-                          SizedBox(width: 5,),
-                          Text('Top 5' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 17,),),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 9,),
-                    TextButton(
-                      onPressed: (){ },
-                      style: TextButton.styleFrom(
-                          side: BorderSide(
-                            width: 2,
-                            color: Color.fromRGBO(128, 8, 12, 10),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13)
-                          ),
-                          foregroundColor: Colors.white
-                      ),
-
-                      child: Row(
-                        children: [
-                          Image.asset('assets/Images/crown.png', width: 20, color: Colors.white,),
-                          SizedBox(width: 5,),
-                          Text('Top 10' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 17,),),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 9,),
-                const Text('or', style:  TextStyle(fontFamily: 'Orbitron', fontSize: 20, color: Color.fromRGBO(255, 15, 24, 10)),),
-                SizedBox(height: 9,),
-                Container(
-                  width: 150,
-                  child: TextButton(
-                    onPressed: (){ },
-                    style: TextButton.styleFrom(
-                        side: BorderSide(
-                          width: 2,
-                          color: Color.fromRGBO(128, 8, 12, 10),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13)
-                        ),
-                        foregroundColor: Colors.white
-                    ),
-
-                    child: Row(
+                  ),
+                  Visibility(
+                    visible: _showrestbuttons,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/Images/crown.png', width: 20, color: Colors.white,),
-                        SizedBox(width: 5,),
-                        Text('Pay per kill' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 17,),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: (){ },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.5)
+                                ),
+                                backgroundColor: Colors.white
+                              ),
+                              child: Row(
+                                  children: [
+                                    Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                                    const SizedBox(width: 2,),
+                                    Text('Top 1' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                  ],
+                                ),
+                            ),
+                            SizedBox(width: screenWidth * 0.023,),
+                            ElevatedButton(
+                              onPressed: (){ },
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.5)
+                                    ),
+                                    backgroundColor: Colors.white
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                                  const SizedBox(width: 2,),
+                                  Text('Top 3' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: screenWidth * 0.023,),
+                            ElevatedButton(
+                              onPressed: (){ },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.5)
+                                  ),
+                                  backgroundColor: Colors.white
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                                  const SizedBox(width: 2,),
+                                  Text('Top 5' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: screenWidth*0.023,),
+                            ElevatedButton(
+                              onPressed: (){ },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.5)
+                                  ),
+                                  backgroundColor: Colors.white
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                                  const SizedBox(width: 2,),
+                                  Text('Top 10' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight * 0.008,),
+                        const Text('or', style:  TextStyle(fontFamily: 'Orbitron', fontSize: 17, color: Color.fromRGBO(255, 15, 24, 10)),),
+                        SizedBox(height: screenHeight * 0.008,),
+                        SizedBox(
+                          width: screenWidth * 0.3,
+
+                          child: ElevatedButton(
+                            onPressed: (){ },
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.5)
+                                ),
+                                backgroundColor: Colors.white,
+                              alignment: Alignment.center
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
+                                const SizedBox(width: 2,),
+                                Text('Pay per kill' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(255, 15, 24, 10)),
-                  child: const Text('Host Tournament'),
-                ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Image.asset('assets/Images/close.png', width: 80, height: 80,)),
-              ],
+                  SizedBox(
+                    height: screenHeight * 0.03,
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.5,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(13)
+                        ),
+
+                      ),
+                      child: Text('Host Tournament', style: TextStyle(
+                        fontFamily: 'Orbitron',
+                      ),),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Image.asset('assets/Images/close.png', )),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
+      floatingActionButton: Visibility(
+        visible: true,
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          transform: Matrix4.translationValues(0.0, -75, 0.0),  // translate up by 30
+          child: CircleAvatar(backgroundImage: AssetImage(img[_img]),radius: 65,),
+        ),
+      ),
+      // dock it to the center top (from which it is translated)
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
     );
   }
 }

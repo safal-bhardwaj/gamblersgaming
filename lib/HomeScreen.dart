@@ -32,6 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
     void _openAddTournamentOverlay(){
       showModalBottomSheet(
         context: context,
+        shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(25.0),
+      ),
+      ),
         builder: (ctx) {
           return const NewTournament();
         },
