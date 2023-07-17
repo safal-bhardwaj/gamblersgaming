@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/BottomNavigation.dart';
 import 'package:gamblersgaming/Home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -83,7 +84,7 @@ class _CreateAccountState extends State<CreateAccount> {
       'Age' : _age,
         });
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>BottomNavigation()));
   }
  //Location function
 

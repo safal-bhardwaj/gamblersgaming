@@ -1,10 +1,8 @@
-//import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-//import 'package:gamblersgaming/HomeScreen.dart';
-//import 'package:gamblersgaming/LoadingScreen.dart';
-//import 'package:gamblersgaming/BottomNavigation.dart';
+
 import 'package:gamblersgaming/Authenticate.dart';
-//import 'package:gamblersgaming/Gamer/login_screen.dart';
+
 class Splash extends StatefulWidget {
   const Splash({super.key});
   @override

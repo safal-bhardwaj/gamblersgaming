@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamblersgaming/Gamer/account_screen.dart';
-import 'Gamer/create_account.dart';
+import 'create_account.dart';
 import 'package:gamblersgaming/start_screen.dart';
 import 'Gamer/login_screen.dart';
 class GamblersGaming extends StatefulWidget{

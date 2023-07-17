@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamblersgaming/Gamer/create_account.dart';
+import 'package:gamblersgaming/create_account.dart';
 import 'package:gamblersgaming/Gamer/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 class AccountScreen extends StatelessWidget{

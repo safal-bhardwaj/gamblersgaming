@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Login.dart';
 
-import 'Gamer/login_screen.dart';
-import 'Home.dart';
+import 'BottomNavigation.dart';
+
 
 class AuthenticateScreen extends StatefulWidget {
   const AuthenticateScreen({super.key});
@@ -22,11 +23,11 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         if(snapshot.hasData)
         {
 
-          return const HomeScreen();
+          return const BottomNavigation();
         }
         else
         {
-          return const LogInScreen();
+          return const Login();
         }
       },));
   }
