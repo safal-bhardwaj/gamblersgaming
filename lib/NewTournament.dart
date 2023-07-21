@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class NewTournament extends StatefulWidget {
@@ -11,8 +12,52 @@ class NewTournament extends StatefulWidget {
   }
 }
 
-
 class _NewTournamentState extends State<NewTournament> {
+  //Backend
+  //variables
+
+  DateTime _date = DateTime.now();
+  String _time = "";
+  String _Title = "";
+  String _Game = "";
+  int _RegFee = 0;
+  int _PrizePool = 0;
+  String _PrizePoolDist = "";
+
+  List<List<String>> _Participants = [];
+
+  String TournamentID = "";
+
+  void _hostTournament() async {
+    _date = selectedDate!;
+    _time = timeOfDay!.format(context) ;
+
+    _Title = _titlecontroller.text;
+    _Game = dropdownvalue;
+    _RegFee = int.parse(regPrice.text);
+    _PrizePool = int.parse(prizePool.text);
+    _PrizePoolDist = prizeDist;
+    print(_PrizePoolDist);
+    await FirebaseFirestore.instance.collection('Hosted Tournaments').add({
+      "Date" : _date,
+      "Time" : _time.toString(),
+      "Game_Image" : img[_showimg],
+      "Title" : _Title,
+      "Game" : _Game,
+      "Registration Fee" : _RegFee,
+      "Prize Pool" : _PrizePool,
+      "Prize Pool Distribution" : _PrizePoolDist,
+      "Participants" : _Participants,
+    }).then((documentSnapshot) => TournamentID=documentSnapshot.id );;
+    print(TournamentID);
+  }
+
+// FrontEnd
+  //var
+  DateTime? selectedDate;
+  TimeOfDay? timeOfDay;
+  String dropdownvalue = 'BGMI';
+  String prizeDist = "";
   var items = [
     'BGMI',
     'FreeFire',
@@ -20,9 +65,8 @@ class _NewTournamentState extends State<NewTournament> {
     'New State',
     'Call of Duty Mobile'
   ];
-  String dropdownvalue = 'BGMI';
 
-  final List<String> img = [
+  static final List<String> img = [
     'assets/Images/bgmi.jpg',
     'assets/Images/freefire.png',
     'assets/Images/asphalt.jpg',
@@ -33,6 +77,7 @@ class _NewTournamentState extends State<NewTournament> {
   TextEditingController timeInput = TextEditingController();
   TextEditingController prizePool = TextEditingController();
   TextEditingController regPrice = TextEditingController();
+
   @override
   void initState() {
     timeInput.text = ""; //set the initial value of text field
@@ -54,7 +99,7 @@ class _NewTournamentState extends State<NewTournament> {
   }
 
   final formatter = DateFormat.yMMMMd('en_US');
-  DateTime? selectedDate;
+
   void _presentdatepicker() async {
     final pickedDate = await showDatePicker(
       context: context,
@@ -67,7 +112,6 @@ class _NewTournamentState extends State<NewTournament> {
     });
   }
 
-  TimeOfDay? timeOfDay;
   void _timePicker() {
     showTimePicker(
       context: context,
@@ -84,26 +128,21 @@ class _NewTournamentState extends State<NewTournament> {
     super.dispose();
     _titlecontroller.dispose();
   }
+
   FocusNode focusNode1 = FocusNode();
   FocusNode focusNode2 = FocusNode();
   Color borderColor = const Color.fromRGBO(128, 8, 12, 10);
   bool _showButton = false;
   bool _showrestbuttons = true;
-  int _img = 0;
+  int _showimg = 0;
+
   @override
   Widget build(context) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color.fromRGBO(20, 20, 20, 1),
       body: SingleChildScrollView(
-
         child: Column(
           children: [
             Row(
@@ -111,44 +150,53 @@ class _NewTournamentState extends State<NewTournament> {
                 //Date-picker
                 Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding:  EdgeInsets.fromLTRB(screenWidth * 0.01,0,0, screenHeight * 0.01,),
-                          child: TextButton(
-                            onPressed: _presentdatepicker,
-                            style:
-                            TextButton.styleFrom(
-                              foregroundColor: Colors.white,
-                            ),
-                            child: Row(children: [
-                              const Icon(Icons.calendar_month),
-                              SizedBox(
-                                width: screenWidth * 0.02,
-                              ),
-                              SizedBox(
-                                width: screenWidth*0.3,
-                                child: Text(
-                                  selectedDate == null
-                                      ? 'Date'
-                                      : formatter.format(selectedDate!),
-                                  style: const TextStyle(
-                                      fontFamily: 'MSPGothic', fontSize: 16),
-                                ),
-                              ),
-                            ]),
-                          ),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        screenWidth * 0.01,
+                        0,
+                        0,
+                        screenHeight * 0.01,
+                      ),
+                      child: TextButton(
+                        onPressed: _presentdatepicker,
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                         ),
-                      ],
-                    )),
+                        child: Row(children: [
+                          const Icon(Icons.calendar_month),
+                          SizedBox(
+                            width: screenWidth * 0.02,
+                          ),
+                          SizedBox(
+                            width: screenWidth * 0.3,
+                            child: Text(
+                              selectedDate == null
+                                  ? 'Date'
+                                  : formatter.format(selectedDate!),
+                              style: const TextStyle(
+                                  fontFamily: 'MSPGothic', fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ],
+                )),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth * 0.03,0,screenWidth * 0.01, screenHeight * 0.01,),
+                        padding: EdgeInsets.fromLTRB(
+                          screenWidth * 0.03,
+                          0,
+                          screenWidth * 0.01,
+                          screenHeight * 0.01,
+                        ),
                         child: TextButton(
                             onPressed: _timePicker,
                             style: TextButton.styleFrom(
@@ -157,7 +205,7 @@ class _NewTournamentState extends State<NewTournament> {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: screenWidth*0.3,
+                                  width: screenWidth * 0.3,
                                   child: Text(
                                     timeOfDay == null
                                         ? 'Time'
@@ -168,7 +216,7 @@ class _NewTournamentState extends State<NewTournament> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: screenWidth*0.02,
+                                  width: screenWidth * 0.02,
                                 ),
                                 const Icon(Icons.watch_later_outlined),
                               ],
@@ -180,9 +228,10 @@ class _NewTournamentState extends State<NewTournament> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(screenWidth*0.01, screenHeight*0.03, screenWidth*0.01, screenHeight*0.03 ),
-               child: Column(
-                 mainAxisSize: MainAxisSize.min,
+              padding: EdgeInsets.fromLTRB(screenWidth * 0.01,
+                  screenHeight * 0.03, screenWidth * 0.01, screenHeight * 0.03),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     width: screenWidth * 0.4,
@@ -191,16 +240,21 @@ class _NewTournamentState extends State<NewTournament> {
                       //menuMaxHeight: 200,
                       itemHeight: null,
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder( //<-- SEE HERE
+                        enabledBorder: OutlineInputBorder(
+                          //<-- SEE HERE
                           borderRadius: BorderRadius.circular(20.5),
                         ),
-                        focusedBorder:  OutlineInputBorder( //<-- SEE HERE
+                        focusedBorder: OutlineInputBorder(
+                          //<-- SEE HERE
                           borderRadius: BorderRadius.circular(20.5),
                         ),
                         border: InputBorder.none,
-
                         filled: true,
-                        contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.032 , screenHeight * 0.01, screenWidth * 0.031, screenHeight* 0.01),
+                        contentPadding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.032,
+                            screenHeight * 0.01,
+                            screenWidth * 0.031,
+                            screenHeight * 0.01),
                         fillColor: Colors.white,
                       ),
                       dropdownColor: Colors.white,
@@ -211,43 +265,46 @@ class _NewTournamentState extends State<NewTournament> {
                         setState(() {
                           dropdownvalue = newValue!;
                           _showButton = dropdownvalue == items[2];
-                          if(dropdownvalue != items[2]){
+                          if (dropdownvalue != items[2]) {
                             _showrestbuttons = true;
-                          }
-                          else{
+                          } else {
                             _showrestbuttons = false;
                           }
-                          if(dropdownvalue == items[0]){
-                            _img = 0;
+                          if (dropdownvalue == items[0]) {
+                            _showimg = 0;
                           }
-                          if(dropdownvalue == items[1]){
-                            _img = 1;
+                          if (dropdownvalue == items[1]) {
+                            _showimg = 1;
                           }
-                          if(dropdownvalue == items[2]){
-                            _img = 2;
+                          if (dropdownvalue == items[2]) {
+                            _showimg = 2;
                           }
-                          if(dropdownvalue == items[3]){
-                            _img = 3;
+                          if (dropdownvalue == items[3]) {
+                            _showimg = 3;
                           }
-                          if(dropdownvalue == items[4]){
-                            _img = 4;
+                          if (dropdownvalue == items[4]) {
+                            _showimg = 4;
                           }
                         });
-                        },
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(
-                              items,
-                              style:
-                                  const TextStyle(fontSize: 12, fontFamily: 'Orbitron', color: Color.fromRGBO(128, 8, 12, 10)),
-                            ),
-                          );
-                          }).toList(),
-                      icon: Image.asset('assets/Images/downarrow.png', width: screenWidth * 0.04,),
+                      },
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(
+                            items,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'Orbitron',
+                                color: Color.fromRGBO(128, 8, 12, 10)),
+                          ),
+                        );
+                      }).toList(),
+                      icon: Image.asset(
+                        'assets/Images/downarrow.png',
+                        width: screenWidth * 0.04,
+                      ),
                     ),
                   ),
-
                   SizedBox(height: screenHeight * 0.05),
                   SizedBox(
                     width: screenWidth * 0.6,
@@ -260,9 +317,9 @@ class _NewTournamentState extends State<NewTournament> {
                           child: Text(
                             'Tournament Name',
                             style: TextStyle(
-                                fontFamily: 'Orbitron',
-                                fontSize: 16,
-                                color: Colors.white,
+                              fontFamily: 'Orbitron',
+                              fontSize: 16,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -279,43 +336,57 @@ class _NewTournamentState extends State<NewTournament> {
                   SizedBox(
                     height: screenHeight * 0.02,
                   ),
-
                   Row(
                     //mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.1,
+                            screenHeight * 0.01,
+                            screenWidth * 0.01,
+                            screenHeight * 0.01),
                         child: const Text(
                           'Registration Fee        :',
-                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
+                          style: TextStyle(
+                              fontFamily: 'MSPGothic',
+                              fontSize: 16,
+                              color: Color.fromRGBO(255, 15, 24, 10)),
                         ),
                       ),
                       SizedBox(
                         width: screenWidth * 0.1,
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth*0.001,screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.001,
+                            screenHeight * 0.01,
+                            screenWidth * 0.01,
+                            screenHeight * 0.01),
                         child: Container(
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 2),
-                            borderRadius: BorderRadius.circular(20.5),
-                            color: Colors.white
-                          ),
+                              border: Border.all(color: borderColor, width: 2),
+                              borderRadius: BorderRadius.circular(20.5),
+                              color: Colors.white),
                           child: SizedBox(
                             width: screenWidth * 0.25,
                             height: screenHeight * 0.037,
                             child: TextField(
                               focusNode: focusNode1,
-                              controller: prizePool,
+                              controller: regPrice,
                               keyboardType: TextInputType.number,
-                              style: const TextStyle(color: Color.fromRGBO(128, 8, 12, 10)),
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(128, 8, 12, 10)),
                               decoration: InputDecoration(
                                 label: Text(''),
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.fromLTRB(screenWidth * 0.03, 0, 0, screenHeight * 0.013),
+                                contentPadding: EdgeInsets.fromLTRB(
+                                    screenWidth * 0.03,
+                                    0,
+                                    0,
+                                    screenHeight * 0.013),
                               ),
                             ),
                           ),
@@ -338,41 +409,56 @@ class _NewTournamentState extends State<NewTournament> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.1,
+                            screenHeight * 0.01,
+                            screenWidth * 0.01,
+                            screenHeight * 0.01),
                         child: const Text(
                           'Prize Pool                :',
-                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
+                          style: TextStyle(
+                              fontFamily: 'MSPGothic',
+                              fontSize: 16,
+                              color: Color.fromRGBO(255, 15, 24, 10)),
                         ),
                       ),
                       SizedBox(
-                        width: screenWidth*0.1,
+                        width: screenWidth * 0.1,
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth*0.001,screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
+                        padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.001,
+                            screenHeight * 0.01,
+                            screenWidth * 0.01,
+                            screenHeight * 0.01),
                         child: Container(
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 2),
-                            borderRadius: BorderRadius.circular(20.5),
-                            color: Colors.white
-                          ),
+                              border: Border.all(color: borderColor, width: 2),
+                              borderRadius: BorderRadius.circular(20.5),
+                              color: Colors.white),
                           child: SizedBox(
                             width: screenWidth * 0.25,
                             height: screenHeight * 0.037,
                             child: TextField(
                               focusNode: focusNode2,
-                              controller: regPrice,
+                              controller: prizePool,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 label: Text(''),
                                 border: InputBorder.none,
-                                contentPadding:EdgeInsets.fromLTRB(screenWidth * 0.03, 0, 0, screenHeight * 0.013),
-                                  ),
-                              style: const TextStyle(color: Color.fromRGBO(128, 8, 12, 10)),
-                            ),
+                                contentPadding: EdgeInsets.fromLTRB(
+                                    screenWidth * 0.03,
+                                    0,
+                                    0,
+                                    screenHeight * 0.013),
+                              ),
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(128, 8, 12, 10)),
                             ),
                           ),
+                        ),
                       ),
                       SizedBox(
                         width: screenWidth * 0.01,
@@ -388,52 +474,56 @@ class _NewTournamentState extends State<NewTournament> {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: RichText(text: const TextSpan(
+                    child: RichText(
+                      text: const TextSpan(
                           text: 'Prize',
                           style: TextStyle(
-                            fontFamily: 'Orbitron',
-                            color: Color.fromRGBO(255, 15, 24, 10),
-                            fontSize: 16
-                          ),
+                              fontFamily: 'Orbitron',
+                              color: Color.fromRGBO(255, 15, 24, 10),
+                              fontSize: 16),
                           children: <TextSpan>[
                             TextSpan(
                                 text: ' Distribution',
                                 style: TextStyle(
                                     fontFamily: 'Orbitron',
                                     color: Colors.white,
-                                  fontSize: 16
-                                )
-                            )
-                          ]
-                      ),),
-
+                                    fontSize: 16))
+                          ]),
+                    ),
                   ),
                   SizedBox(
                     height: screenHeight * 0.01,
                   ),
                   Visibility(
-                      visible: _showButton,
-                      child:SizedBox(
-                        width: screenWidth * 0.23,
-
-                        child: ElevatedButton(
-                          onPressed: (){ },
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.5)
-                              ),
-                              backgroundColor: Colors.white
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                              const SizedBox(width: 2,),
-                              Text('Top 2' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
-                            ],
-                          ),
+                    visible: _showButton,
+                    child: SizedBox(
+                      width: screenWidth * 0.23,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.5)),
+                            backgroundColor: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/Images/crown.png',
+                              width: 15,
+                              color: Colors.black,
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text('Top 2',
+                                style: TextStyle(
+                                    fontFamily: 'MSPGothic',
+                                    fontSize: 16,
+                                    color: Colors.black))
+                          ],
                         ),
                       ),
+                    ),
                   ),
                   Visibility(
                     visible: _showrestbuttons,
@@ -444,95 +534,164 @@ class _NewTournamentState extends State<NewTournament> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              onPressed: (){ },
+                              onPressed: () {
+                                prizeDist = "Top 1";
+                              },
                               style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.5)
-                                ),
-                                backgroundColor: Colors.white
-                              ),
-                              child: Row(
-                                  children: [
-                                    Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                                    const SizedBox(width: 2,),
-                                    Text('Top 1' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
-                                  ],
-                                ),
-                            ),
-                            SizedBox(width: screenWidth * 0.023,),
-                            ElevatedButton(
-                              onPressed: (){ },
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20.5)
-                                    ),
-                                    backgroundColor: Colors.white
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.5)),
+                                  backgroundColor: Colors.white),
                               child: Row(
                                 children: [
-                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                                  const SizedBox(width: 2,),
-                                  Text('Top 3' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                  Image.asset(
+                                    'assets/Images/crown.png',
+                                    width: 15,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text('Top 1',
+                                      style: TextStyle(
+                                          fontFamily: 'MSPGothic',
+                                          fontSize: 16,
+                                          color: Colors.black))
                                 ],
                               ),
                             ),
-                            SizedBox(width: screenWidth * 0.023,),
+                            SizedBox(
+                              width: screenWidth * 0.023,
+                            ),
                             ElevatedButton(
-                              onPressed: (){ },
+                              onPressed: () {
+                                prizeDist = "Top 3";
+                              },
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.5)
-                                  ),
-                                  backgroundColor: Colors.white
-                              ),
+                                      borderRadius:
+                                          BorderRadius.circular(20.5)),
+                                  backgroundColor: Colors.white),
                               child: Row(
                                 children: [
-                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                                  const SizedBox(width: 2,),
-                                  Text('Top 5' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                  Image.asset(
+                                    'assets/Images/crown.png',
+                                    width: 15,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text('Top 3',
+                                      style: TextStyle(
+                                          fontFamily: 'MSPGothic',
+                                          fontSize: 16,
+                                          color: Colors.black))
                                 ],
                               ),
                             ),
-                            SizedBox(width: screenWidth*0.023,),
+                            SizedBox(
+                              width: screenWidth * 0.023,
+                            ),
                             ElevatedButton(
-                              onPressed: (){ },
+                              onPressed: () {
+                                prizeDist = "Top 5";
+                              },
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.5)
-                                  ),
-                                  backgroundColor: Colors.white
-                              ),
+                                      borderRadius:
+                                          BorderRadius.circular(20.5)),
+                                  backgroundColor: Colors.white),
                               child: Row(
                                 children: [
-                                  Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                                  const SizedBox(width: 2,),
-                                  Text('Top 10' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                  Image.asset(
+                                    'assets/Images/crown.png',
+                                    width: 15,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text('Top 5',
+                                      style: TextStyle(
+                                          fontFamily: 'MSPGothic',
+                                          fontSize: 16,
+                                          color: Colors.black))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.023,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                prizeDist = "Top 10";
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.5)),
+                                  backgroundColor: Colors.white),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/Images/crown.png',
+                                    width: 15,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text('Top 10',
+                                      style: TextStyle(
+                                          fontFamily: 'MSPGothic',
+                                          fontSize: 16,
+                                          color: Colors.black))
                                 ],
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: screenHeight * 0.008,),
-                        const Text('or', style:  TextStyle(fontFamily: 'Orbitron', fontSize: 17, color: Color.fromRGBO(255, 15, 24, 10)),),
-                        SizedBox(height: screenHeight * 0.008,),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        const Text(
+                          'or',
+                          style: TextStyle(
+                              fontFamily: 'Orbitron',
+                              fontSize: 17,
+                              color: Color.fromRGBO(255, 15, 24, 10)),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
                         SizedBox(
                           width: screenWidth * 0.3,
-
                           child: ElevatedButton(
-                            onPressed: (){ },
+                            onPressed: () {
+                              prizeDist = "Pay Per Kill";
+                            },
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.5)
-                                ),
+                                    borderRadius: BorderRadius.circular(20.5)),
                                 backgroundColor: Colors.white,
-                              alignment: Alignment.center
-                            ),
+                                alignment: Alignment.center),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/Images/crown.png', width: 15, color: Colors.black,),
-                                const SizedBox(width: 2,),
-                                Text('Pay per kill' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: Colors.black))
+                                Image.asset(
+                                  'assets/Images/crown.png',
+                                  width: 15,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text('Pay per kill',
+                                    style: TextStyle(
+                                        fontFamily: 'MSPGothic',
+                                        fontSize: 16,
+                                        color: Colors.black))
                               ],
                             ),
                           ),
@@ -546,24 +705,27 @@ class _NewTournamentState extends State<NewTournament> {
                   SizedBox(
                     width: screenWidth * 0.5,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _hostTournament,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
+                        backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13)
-                        ),
-
+                            borderRadius: BorderRadius.circular(13)),
                       ),
-                      child: Text('Host Tournament', style: TextStyle(
-                        fontFamily: 'Orbitron',
-                      ),),
+                      child: Text(
+                        'Host Tournament',
+                        style: TextStyle(
+                          fontFamily: 'Orbitron',
+                        ),
+                      ),
                     ),
                   ),
                   IconButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Image.asset('assets/Images/close.png', )),
+                      icon: Image.asset(
+                        'assets/Images/close.png',
+                      )),
                 ],
               ),
             ),
@@ -576,8 +738,12 @@ class _NewTournamentState extends State<NewTournament> {
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
           ),
-          transform: Matrix4.translationValues(0.0, -75, 0.0),  // translate up by 30
-          child: CircleAvatar(backgroundImage: AssetImage(img[_img]),radius: 65,),
+          transform: Matrix4.translationValues(0.0, -75, 0.0),
+          // translate up by 30
+          child: CircleAvatar(
+            backgroundImage: AssetImage(img[_showimg]),
+            radius: 65,
+          ),
         ),
       ),
       // dock it to the center top (from which it is translated)
