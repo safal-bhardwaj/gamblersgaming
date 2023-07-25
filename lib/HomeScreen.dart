@@ -15,25 +15,26 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   //Backend
-  var Card = {
-    "Date": null,
-    "Time": "",
-    "Game_Image": "",
-    "Title": "",
-    "Game": "",
-    "Registration Fee": 0,
-    "Prize Pool": 0,
-    "Prize Pool Distribution": "",
-    "Participants": [],
-  };
+  // var Card = {
+  //   "Date": null,
+  //   "Time": "",
+  //   "Game_Image": "",
+  //   "Title": "",
+  //   "Game": "",
+  //   "Registration Fee": 0,
+  //   "Prize Pool": 0,
+  //   "Prize Pool Distribution": "",
+  //   "Participants": [],
+  // };
 
-  List<Map> Card_List = [];
+  List<Map> Card_List =[];
 
   void cardData() async
   {
     await FirebaseFirestore.instance.collection(
-        'Hosted Tournaments').orderBy('Time').limit(10).get().then((snapshot) {
+        'Hosted Tournaments').get().then((snapshot) {
       for (var doc in snapshot.docs) {
+        var Card = {};
         Card['Game_Image'] = doc["Game_Image"];
         Card['Date'] = doc["Date"];
         Card['Time'] = doc["Time"];
@@ -43,10 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
         Card['Prize Pool'] = doc["Prize Pool"];
         Card['Prize Pool Distribution'] = doc["Prize Pool Distribution"];
         Card['Participants'] = doc["Participants"];
+
         Card_List.add(Card);
       }
     });
-    print(Card_List);
+
   }
 
   @override
