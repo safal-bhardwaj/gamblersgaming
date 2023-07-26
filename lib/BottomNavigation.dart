@@ -22,7 +22,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(context) {
     Widget activePage = const HomeScreen();
     if(_selectedPageIndex == 1){
-      activePage = const Home();
+      activePage = SearchScreen();
     }
     if(_selectedPageIndex == 2){
       activePage = const Home();

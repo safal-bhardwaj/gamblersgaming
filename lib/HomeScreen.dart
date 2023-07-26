@@ -47,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
         Card_List.add(Card);
       }
+      setState(() {
+
+      });
     });
 
   }
@@ -341,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             borderRadius: BorderRadius.circular(13)),
                                                       ),
                                                       child: Text(
-                                                        'Join Game',
+                                                        'Join The Game',
                                                         style: TextStyle(
                                                           fontFamily: 'Orbitron',
                                                           fontSize: 12 ,
