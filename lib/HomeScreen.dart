@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gamblersgaming/NewTournament.dart';
 import 'package:intl/intl.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   //Backend
   // var Card = {
   //   "Date": null,
@@ -27,12 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   //   "Participants": [],
   // };
 
-  List<Map> Card_List =[];
+  List<Map> Card_List = [];
+  bool _isLoading = true;
 
-  void cardData() async
-  {
-    await FirebaseFirestore.instance.collection(
-        'Hosted Tournaments').get().then((snapshot) {
+  void cardData() async {
+    await FirebaseFirestore.instance
+        .collection('Hosted Tournaments')
+        .get()
+        .then((snapshot) {
       for (var doc in snapshot.docs) {
         var Card = {};
         Card['Game_Image'] = doc["Game_Image"];
@@ -47,11 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
         Card_List.add(Card);
       }
-      setState(() {
-
-      });
+      _isLoading = false;
+      setState(() {});
     });
-
   }
 
   @override
@@ -64,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
   //variables
   final formatter = DateFormat.yMMMMd('en_US');
 
-
   @override
   Widget build(context) {
     final List<String> imageList = [
@@ -73,14 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
       'assets/Images/img3.png',
       'assets/Images/img4.jpg',
     ];
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     void _openAddTournamentOverlay() {
       showModalBottomSheet(
@@ -95,297 +86,475 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     }
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(0, 0, 0, 10),
       body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  child: CarouselSlider.builder(
-                    itemCount: imageList.length,
-                    options: CarouselOptions(
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.46,
-                      height: screenHeight * 0.35,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      reverse: false,
-                    ),
-                    itemBuilder: (context, i, id) {
-                      //for onTap to redirect to another screen
-                      return GestureDetector(
-                        child: Container(
-                          width: screenWidth * 0.4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            //border: Border.all(color: Colors.white,)
+          child: _isLoading
+              ? CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                  color: Color.fromRGBO(255, 15, 24, 1),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(15),
+                        child: CarouselSlider.builder(
+                          itemCount: imageList.length,
+                          options: CarouselOptions(
+                            enlargeCenterPage: true,
+                            viewportFraction: 0.46,
+                            height: screenHeight * 0.35,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            reverse: false,
                           ),
-                          //ClipRRect for image border radius
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.asset(
-                              imageList[i],
-                              width: screenWidth * 0.4,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.03,),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: screenWidth * 0.8,
-                    height: screenHeight * 0.04,
-                    child: RichText(text: const TextSpan(
-                        text: 'Recent',
-                        style: TextStyle(
-                          fontFamily: 'Orbitron',
-                          color: Color.fromRGBO(255, 15, 24, 10),
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' Tournaments:',
-                              style: TextStyle(
-                                  fontFamily: 'Orbitron',
-                                  color: Colors.white
-                              )
-                          )
-                        ]
-                    ),),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Container(
-                    height: 350,
-                    child: ListView.builder(scrollDirection: Axis.horizontal,
-                        itemCount: Card_List.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                                width: 280,
-                                height: 350,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(20, 20, 20, 1),
-                                    borderRadius: BorderRadius.circular(13)),
-
-                                child: Column(
-                                    children: [
-                                ClipRRect(
-                                borderRadius: BorderRadius.circular(13),
-                                child: Image.asset(
-                                    Card_List[index]["Game_Image"], width: 280,
-                                    height: 150,
-                                    fit: BoxFit.cover)),
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                          itemBuilder: (context, i, id) {
+                            //for onTap to redirect to another screen
+                            return GestureDetector(
                               child: Container(
+                                width: screenWidth * 0.4,
                                 decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(width: 1,
-                                          color: Color.fromRGBO(128, 8, 12, 1))
+                                  borderRadius: BorderRadius.circular(15),
+                                  //border: Border.all(color: Colors.white,)
+                                ),
+                                //ClipRRect for image border radius
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.asset(
+                                    imageList[i],
+                                    width: screenWidth * 0.4,
+                                    fit: BoxFit.cover,
                                   ),
-
-
                                 ),
-                                child: Row(
-
-                                  children: [
-                                    SizedBox(width: 3,),
-                                    Text(Card_List[index]["Title"],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: screenHeight * 0.03,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: screenWidth * 0.8,
+                          height: screenHeight * 0.04,
+                          child: RichText(
+                            text: const TextSpan(
+                                text: 'Recent',
+                                style: TextStyle(
+                                  fontFamily: 'Orbitron',
+                                  color: Color.fromRGBO(255, 15, 24, 10),
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: ' Tournaments:',
                                       style: TextStyle(
-                                          fontFamily: "orbitron", fontSize: 14),
-                                      textAlign: TextAlign.start,),
-                                    Expanded(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .end,
+                                          fontFamily: 'Orbitron',
+                                          color: Colors.white))
+                                ]),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          height: screenHeight * 0.34,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: Card_List.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      screenWidth * 0.04,
+                                      0,
+                                      screenWidth * 0.04,
+                                      0),
+                                  child: Container(
+                                      width: screenWidth * 0.68,
+                                      height: screenHeight * 0.34,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromRGBO(20, 20, 20, 1),
+                                          borderRadius:
+                                              BorderRadius.circular(13)),
+                                      child: Column(
                                         children: [
-                                          Icon(Icons.people,
-                                            color: Color.fromRGBO(
-                                                128, 8, 12, 1),)
-                                          ,
-                                          SizedBox(width: 3,),
-                                          Text(
-                                            "${Card_List[index]["Participants"]
-                                                .length}/${Card_List[index]["Game"] ==
-                                                "Asphalt" ? 8 : 100}",
-                                            style: TextStyle(fontSize: 14,
-                                                fontFamily: "MSPGothic"),),
-                                          SizedBox(width: 3,),
-                                        ],
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                              child: Row(
-                                children: [
-                              Column(
-                              children: [
-                              Text("Date", style: TextStyle(
-                                  fontSize: 14, fontFamily: "MSPGothic", color: Color.fromRGBO(128, 8, 12, 1)),),
-                              SizedBox(height: 3,),
-                              Text("${formatter.format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      Card_List[index]["Date"].seconds *
-                                          1000))}", style: TextStyle(
-                                  fontSize: 12, fontFamily: "orbitron"),)
-
-                              ],
-
-                              ),
-                              Expanded(
-
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Column(
-
-                                  children: [
-                                    Text("Time", style: TextStyle(
-                                        fontSize: 14, fontFamily: "MSPGothic", color: Color.fromRGBO(128, 8, 12, 1)),),
-                                    SizedBox(height: 3,),
-                                    Text(Card_List[index]["Time"], style: TextStyle(
-                                        fontSize: 12, fontFamily: "orbitron"),)
-
-                                  ],),
-                                ),
-                              )
-                              ],
-                              ),
-                            ),
-
-                              Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-                          child: Row(
-                          children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                            child: Column(
-                            children: [
-                            Text("Entry Fee", style: TextStyle(
-                            fontSize: 14, fontFamily: "MSPGothic", color: Color.fromRGBO(128, 8, 12, 1)),),
-                            SizedBox(height: 3,),
-                            Text("${Card_List[index]["Registration Fee"]}", style: TextStyle(
-                            fontSize: 12, fontFamily: "orbitron"),)
-
-                            ],
-
-                            ),
-                          ),
-                          Expanded(
-
-                          child: Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
-                            child: Column(
-
-                            children: [
-                            Text("Prize Pool", style: TextStyle(
-                            fontSize: 12, fontFamily:"MSPGothic" , color: Color.fromRGBO(128, 8, 12, 1)),),
-                            SizedBox(height: 3,),
-                            Text("${Card_List[index]["Prize Pool"]}", style: TextStyle(
-                            fontSize: 12, fontFamily: "orbitron"),)
-
-                            ],),
-                          ),
-                          ),
-                          )
-                          ],
-                          ),),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 4, 8, 0),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              child: Image.asset(
+                                                  Card_List[index]
+                                                      ["Game_Image"],
+                                                  width: screenWidth * 0.68,
+                                                  height: screenHeight * 0.156,
+                                                  fit: BoxFit.cover)),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                screenWidth * 0.03,
+                                                screenHeight * 0.007,
+                                                screenWidth * 0.03,
+                                                screenHeight * 0.01),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        width: 1,
+                                                        color: Color.fromRGBO(
+                                                            128, 8, 12, 1))),
+                                              ),
                                               child: Row(
                                                 children: [
-                                                  TextButton(onPressed: (){}, child: Row(
-                                                    children: [
-                                                      Text("More Details " ,style: TextStyle(color: Color.fromRGBO(128, 8, 12, 1)),),
-                                                      Transform.rotate(angle:4.7 ,child: Image.asset("assets/Images/downarrow.png",width: 15, height: 15,))
-                                                    ],
-                                                  ))
+                                                  Text(
+                                                    Card_List[index]["Title"],
+                                                    style: TextStyle(
+                                                        fontFamily: "orbitron",
+                                                        fontSize: screenWidth *
+                                                            0.028),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.people,
+                                                          color: Color.fromRGBO(
+                                                              128, 8, 12, 1),
+                                                        ),
+                                                        SizedBox(
+                                                          width: screenWidth *
+                                                              0.013,
+                                                        ),
+                                                        Text(
+                                                          "${Card_List[index]["Participants"].length}/${Card_List[index]["Game"] == "Asphalt" ? 8 : 100}",
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.028,
+                                                              fontFamily:
+                                                                  "MSPGothic"),
+                                                        ),
+                                                        //SizedBox(width: 3,),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ],
-
                                               ),
                                             ),
-                                            Expanded(
-
-                                              child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(0, 0, 3, 0),
-                                                  child: SizedBox(
-                                                    height: 20,
-                                                    child: ElevatedButton(
-                                                      onPressed: (){},
-                                                      style: ElevatedButton.styleFrom(
-                                                        backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(13)),
-                                                      ),
-                                                      child: Text(
-                                                        'Join The Game',
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                screenWidth * 0.03,
+                                                0,
+                                                screenWidth * 0.03,
+                                                0),
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      "Date",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.035,
+                                                          fontFamily:
+                                                              "MSPGothic",
+                                                          color: Color.fromRGBO(
+                                                              128, 8, 12, 1)),
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          screenHeight * 0.001,
+                                                    ),
+                                                    Text(
+                                                      "${formatter.format(DateTime.fromMillisecondsSinceEpoch(Card_List[index]["Date"].seconds * 1000))}",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.027,
+                                                          fontFamily:
+                                                              "orbitron"),
+                                                    )
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          "Time",
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.035,
+                                                              fontFamily:
+                                                                  "MSPGothic",
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      128,
+                                                                      8,
+                                                                      12,
+                                                                      1)),
+                                                        ),
+                                                        SizedBox(
+                                                          height: screenHeight *
+                                                              0.001,
+                                                        ),
+                                                        Text(
+                                                          Card_List[index]
+                                                              ["Time"],
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.027,
+                                                              fontFamily:
+                                                                  "orbitron"),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                screenWidth * 0.03,
+                                                screenHeight * 0.01,
+                                                screenWidth * 0.03,
+                                                0),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      screenWidth * 0.046,
+                                                      0,
+                                                      0,
+                                                      0),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Entry Fee",
                                                         style: TextStyle(
-                                                          fontFamily: 'Orbitron',
-                                                          fontSize: 12 ,
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    0.035,
+                                                            fontFamily:
+                                                                "MSPGothic",
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    128,
+                                                                    8,
+                                                                    12,
+                                                                    1)),
+                                                      ),
+                                                      SizedBox(
+                                                        height: screenHeight *
+                                                            0.001,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            'assets/Images/chips.png',
+                                                            width: screenWidth *
+                                                                0.03,
+                                                          ),
+                                                          SizedBox(
+                                                            width: screenWidth *
+                                                                0.01,
+                                                          ),
+                                                          Text(
+                                                            "${Card_List[index]["Registration Fee"]}",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    screenWidth *
+                                                                        0.027,
+                                                                fontFamily:
+                                                                    "orbitron"),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        Text(
+                                                          "Prize Pool",
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.035,
+                                                              fontFamily:
+                                                                  "MSPGothic",
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      128,
+                                                                      8,
+                                                                      12,
+                                                                      1)),
+                                                        ),
+                                                        SizedBox(
+                                                          height: screenHeight *
+                                                              0.001,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            print(
+                                                                "safal kutta");
+                                                          },
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Image.asset(
+                                                                'assets/Images/chips.png',
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.03,
+                                                              ),
+                                                              SizedBox(
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.01,
+                                                              ),
+                                                              Text(
+                                                                "${Card_List[index]["Prize Pool"]}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        screenWidth *
+                                                                            0.027,
+                                                                    fontFamily:
+                                                                        "orbitron"),
+                                                              ),
+                                                              SizedBox(
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.01,
+                                                              ),
+                                                              Image.asset(
+                                                                'assets/Images/downarrow.png',
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.04,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: screenHeight * 0.002,),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, screenWidth * 0.02, 0),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.fromLTRB(
+                                                          screenWidth * 0.03, 0, 0, 0),
+                                                  child: TextButton(
+                                                      onPressed: () {},
+                                                      child: Text(
+                                                        "More Details ",
+                                                        style: TextStyle(
+                                                            color: Color
+                                                                .fromRGBO(
+                                                                    255,
+                                                                    15,
+                                                                    24,
+                                                                    1),
+                                                          fontSize: screenWidth * 0.032
+                                                        ),
+                                                      )),
+                                                ),
+                                                Expanded(
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: Padding(
+                                                      padding: EdgeInsets
+                                                          .fromLTRB(0, 0, screenWidth * 0.01, 0),
+                                                      child: SizedBox(
+                                                        height: screenHeight * 0.025,
+                                                        child: ElevatedButton(
+                                                          onPressed: () {},
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color
+                                                                        .fromRGBO(
+                                                                    255,
+                                                                    15,
+                                                                    24,
+                                                                    10),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            13)),
+                                                          ),
+                                                          child: Text(
+                                                            'Join The Game',
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Orbitron',
+                                                              fontSize: screenWidth * 0.026,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                  ),
                                                 ),
-                                              ),
-                                          ],
-                                        ),)
-                          
-                                      
-                          ],
-                          )
-                          )
-                          ,
-                          );
-                        }),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                );
+                              }),
+                        ),
+                      )
+                    ],
                   ),
-                )
-
-
-              ],
-            ),
-          )
-      ),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+                )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: SizedBox(
-        width: 63,
-        height: 63,
+        width: screenWidth * 0.15,
+        height: screenHeight * 0.1,
         child: FloatingActionButton(
           backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
           onPressed: _openAddTournamentOverlay,
           child: Image.asset(
-            'assets/Images/Gamer/game-controller (3).png', width: 40,
-            color: Colors.white,),
+            'assets/Images/Gamer/game-controller (3).png',
+            width: screenWidth * 0.1,
+            color: Colors.white,
+          ),
         ),
       ),
-
     );
   }
 }
