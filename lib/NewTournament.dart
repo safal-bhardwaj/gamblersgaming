@@ -1400,7 +1400,7 @@ class _NewTournamentState extends State<NewTournament> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Image.asset('assets/Images/close.png', )),
+                      icon: Icon(Icons.close_rounded, color: Color.fromRGBO(255, 15, 24, 1),)),
                 ],
               ),
     ),])),
