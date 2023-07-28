@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:gamblersgaming/Home.dart';
 import 'package:gamblersgaming/HomeScreen.dart';
@@ -78,6 +79,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           showSelectedLabels: true,
           onTap: _selectPage,
           elevation: 5,
+
         ),
       ),
     );

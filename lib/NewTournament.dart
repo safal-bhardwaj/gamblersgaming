@@ -75,20 +75,7 @@ class _NewTournamentState extends State<NewTournament> {
   void initState() {
     timeInput.text = ""; //set the initial value of text field
     super.initState();
-    focusNode1.addListener(() {
-      setState(() {
-        borderColor = focusNode1.hasFocus
-            ? const Color.fromRGBO(255, 15, 24, 10)
-            : const Color.fromRGBO(128, 8, 12, 10);
-      });
-    });
-    focusNode2.addListener(() {
-      setState(() {
-        borderColor = focusNode2.hasFocus
-            ? const Color.fromRGBO(255, 15, 24, 10)
-            : const Color.fromRGBO(128, 8, 12, 10);
-      });
-    });
+
   }
   final formatter = DateFormat.yMMMMd('en_US');
   DateTime? selectedDate;
@@ -121,9 +108,7 @@ class _NewTournamentState extends State<NewTournament> {
     super.dispose();
     _titlecontroller.dispose();
   }
-  FocusNode focusNode1 = FocusNode();
-  FocusNode focusNode2 = FocusNode();
-  Color borderColor = const Color.fromRGBO(128, 8, 12, 10);
+
   bool _showButton = false;
   bool _showrestbuttons = true;
   int _img = 0;
@@ -181,6 +166,8 @@ class _NewTournamentState extends State<NewTournament> {
                         ),
                       ],
                     )),
+
+                //Time-picker
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -223,6 +210,7 @@ class _NewTournamentState extends State<NewTournament> {
                child: Column(
                  mainAxisSize: MainAxisSize.min,
                 children: [
+                  //Drop-down of games
                   SizedBox(
                     width: screenWidth * 0.4,
                     height: screenHeight * 0.05,
@@ -290,25 +278,25 @@ class _NewTournamentState extends State<NewTournament> {
 
                   SizedBox(height: screenHeight * 0.05),
                   SizedBox(
-                    width: screenWidth * 0.6,
+                    width: screenWidth * 0.46,
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: _titlecontroller,
                       keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         label: Center(
                           child: Text(
                             'Tournament Name',
                             style: TextStyle(
                                 fontFamily: 'Orbitron',
-                                fontSize: 16,
+                                fontSize: screenWidth * 0.03,
                                 color: Colors.white,
                             ),
                           ),
                         ),
                         isDense: true,
-                        contentPadding: EdgeInsets.all(0.0),
-                        enabledBorder: UnderlineInputBorder(
+                        contentPadding: const EdgeInsets.all(0.0),
+                        enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                           width: 1.2,
                           color: Color.fromRGBO(128, 8, 12, 1),
@@ -317,19 +305,29 @@ class _NewTournamentState extends State<NewTournament> {
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.02,
+                    height: screenHeight * 0.03,
                   ),
-
+                  //RegistrationFee
                   Row(
                     //mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
-                        child: const Text(
-                          'Registration Fee        :',
-                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.08, screenHeight * 0.01, screenWidth * 0.014,screenHeight*0.01),
+                        child: Padding(
+                          padding:  EdgeInsets.only(right: screenWidth * 0.02),
+                          child: Text(
+                            'Registration Fee',
+                            style: TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.036, color: const Color.fromRGBO(255, 15, 24, 10)),
+                          ),
                         ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.1,
+                      ),
+                      Text(
+                        ':',
+                        style: TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.036, color: const Color.fromRGBO(255, 15, 24, 10)),
                       ),
                       SizedBox(
                         width: screenWidth * 0.1,
@@ -340,7 +338,6 @@ class _NewTournamentState extends State<NewTournament> {
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 2),
                             borderRadius: BorderRadius.circular(20.5),
                             color: Colors.white
                           ),
@@ -348,7 +345,6 @@ class _NewTournamentState extends State<NewTournament> {
                             width: screenWidth * 0.25,
                             height: screenHeight * 0.037,
                             child: TextField(
-                              focusNode: focusNode1,
                               controller: prizePool,
                               keyboardType: TextInputType.number,
                               style: const TextStyle(color: Color.fromRGBO(128, 8, 12, 10)),
@@ -373,19 +369,28 @@ class _NewTournamentState extends State<NewTournament> {
                   SizedBox(
                     height: screenHeight * 0.01,
                   ),
+
+                  //PrizePool
                   Row(
                     //mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenWidth * 0.1, screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
-                        child: const Text(
-                          'Prize Pool                :',
-                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: 16, color: Color.fromRGBO(255, 15, 24, 10)),
+                        padding: EdgeInsets.fromLTRB(screenWidth * 0.17, screenHeight * 0.01, screenWidth * 0.014,screenHeight*0.01),
+                        child: Text(
+                          'Prize Pool',
+                          style: TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.036, color: const Color.fromRGBO(255, 15, 24, 10)),
                         ),
                       ),
                       SizedBox(
-                        width: screenWidth*0.1,
+                        width: screenWidth * 0.12,
+                      ),
+                      Text(
+                        ':',
+                        style: TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.036, color: const Color.fromRGBO(255, 15, 24, 10)),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.1,
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(screenWidth*0.001,screenHeight * 0.01, screenWidth * 0.01,screenHeight*0.01),
@@ -393,7 +398,6 @@ class _NewTournamentState extends State<NewTournament> {
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           decoration: BoxDecoration(
-                            border: Border.all(color: borderColor, width: 2),
                             borderRadius: BorderRadius.circular(20.5),
                             color: Colors.white
                           ),
@@ -401,7 +405,7 @@ class _NewTournamentState extends State<NewTournament> {
                             width: screenWidth * 0.25,
                             height: screenHeight * 0.037,
                             child: TextField(
-                              focusNode: focusNode2,
+
                               controller: regPrice,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
@@ -424,16 +428,16 @@ class _NewTournamentState extends State<NewTournament> {
                     ],
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: screenHeight * 0.03,
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: RichText(text: const TextSpan(
+                    child: RichText(text: TextSpan(
                           text: 'Prize',
                           style: TextStyle(
                             fontFamily: 'Orbitron',
-                            color: Color.fromRGBO(255, 15, 24, 10),
-                            fontSize: 16
+                            color: const Color.fromRGBO(255, 15, 24, 10),
+                            fontSize: screenWidth * 0.034
                           ),
                           children: <TextSpan>[
                             TextSpan(
@@ -441,7 +445,7 @@ class _NewTournamentState extends State<NewTournament> {
                                 style: TextStyle(
                                     fontFamily: 'Orbitron',
                                     color: Colors.white,
-                                  fontSize: 16
+                                  fontSize: screenWidth * 0.034
                                 )
                             )
                           ]
@@ -449,7 +453,7 @@ class _NewTournamentState extends State<NewTournament> {
 
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: screenHeight * 0.015,
                   ),
 
                   Column(
@@ -458,15 +462,14 @@ class _NewTournamentState extends State<NewTournament> {
                       Visibility(
                         visible: _showButton,
                         child:SizedBox(
-                          width: screenWidth * 0.25,
+                          width: screenWidth * 0.22,
                           child: ElevatedButton(
                             onPressed: (){
                               setState(() {
                                 _click = !_click;
                                 if(_click == true){
-                                  _prizepooldist = true;
                                   top2 = true;
-
+                                  _prizepooldist = true;
                                 }
                                 else{
                                   _prizepooldist = false;
@@ -483,9 +486,9 @@ class _NewTournamentState extends State<NewTournament> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/Images/crown.png', width: 15, color:_click ? Colors.white :  Colors.black),
-                                SizedBox(width: screenWidth * 0.004,),
-                                Text('Top 2' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: 16,color: _click ? Colors.white : Colors.black))
+                                Image.asset('assets/Images/crown.png', width: screenWidth * 0.03, color:_click ? Colors.white :  Colors.black),
+                                SizedBox(width: screenWidth * 0.005,),
+                                Text('Top 2' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034,color: _click ? Colors.white : Colors.black))
                               ],
                             ),
                           ),
@@ -499,50 +502,45 @@ class _NewTournamentState extends State<NewTournament> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 //top1
-                                AnimatedPositioned(
-                                  curve: Curves.easeInOut,
-                                  duration: const Duration(seconds: 1),
-                                  left:  top1? 20 : 0,
-                                  child: Visibility(
-                                    visible: top1,
-                                    child: ElevatedButton(
-                                      onPressed: (){
-                                        setState(() {
-                                          _click = !_click;
-                                          if (_click == true){
-                                            top2 = false;
-                                            top3 = false;
-                                            top5 = false;
-                                            top10 = false;
-                                            payperkill = false;
-                                            ortext = false;
-                                          }
-                                          else{
-                                            top3 = true;
-                                            top5 = true;
-                                            top10 = true;
-                                            payperkill = true;
-                                            ortext = true;
-                                          }
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.5)
-                                        ),
-                                        backgroundColor: _click ? const Color.fromRGBO(128, 8, 12, 1) : Colors.white,
-                                          alignment: Alignment.center
+                                Visibility(
+                                  visible: top1,
+                                  child: ElevatedButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        _click = !_click;
+                                        if (_click == true){
+                                          top2 = false;
+                                          top3 = false;
+                                          top5 = false;
+                                          top10 = false;
+                                          payperkill = false;
+                                          ortext = false;
+                                        }
+                                        else{
+                                          top3 = true;
+                                          top5 = true;
+                                          top10 = true;
+                                          payperkill = true;
+                                          ortext = true;
+                                        }
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.5)
                                       ),
-                                      child: Row(
-                                          children: [
-                                            Image.asset('assets/Images/crown.png', width: screenWidth * 0.038, color: _click ? Colors.white : Colors.black),
-                                            SizedBox(width: screenWidth * 0.0038,),
-                                            Text('Top 1' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.042, color:_click ? Colors.white : Colors.black))
-                                          ],
-                                        ),
+                                      backgroundColor: _click ? const Color.fromRGBO(128, 8, 12, 1) : Colors.white,
+                                        alignment: Alignment.center
                                     ),
-
+                                    child: Row(
+                                        children: [
+                                          Image.asset('assets/Images/crown.png', width: screenWidth * 0.03, color: _click ? Colors.white : Colors.black),
+                                          SizedBox(width: screenWidth * 0.005,),
+                                          Text('Top 1' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034, color:_click ? Colors.white : Colors.black))
+                                        ],
+                                      ),
                                   ),
+
                                 ),
                                 Visibility(visible: top1,
                                 child: SizedBox(width: screenWidth * 0.022,)),
@@ -582,9 +580,9 @@ class _NewTournamentState extends State<NewTournament> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.038, color: _click ? Colors.white : Colors.black),
-                                        SizedBox(width: screenWidth * 0.0038,),
-                                        Text('Top 3' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.042, color:_click ? Colors.white : Colors.black))
+                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.03, color: _click ? Colors.white : Colors.black),
+                                        SizedBox(width: screenWidth * 0.005,),
+                                        Text('Top 3' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034, color:_click ? Colors.white : Colors.black))
                                       ],
                                     ),
                                   ),
@@ -627,9 +625,9 @@ class _NewTournamentState extends State<NewTournament> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.038 ,color: _click ? Colors.white : Colors.black,),
-                                        SizedBox(width: screenWidth * 0.0038,),
-                                        Text('Top 5' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.042, color: _click ? Colors.white : Colors.black))
+                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.03 ,color: _click ? Colors.white : Colors.black,),
+                                        SizedBox(width: screenWidth * 0.005,),
+                                        Text('Top 5' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034, color: _click ? Colors.white : Colors.black))
                                       ],
                                     ),
                                   ),
@@ -671,9 +669,9 @@ class _NewTournamentState extends State<NewTournament> {
                                     ),
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.038, color: _click ? Colors.white : Colors.black,),
-                                        SizedBox(width: screenWidth * 0.0038,),
-                                        Text('Top 10' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.042,color: _click ? Colors.white : Colors.black))
+                                        Image.asset('assets/Images/crown.png', width: screenWidth * 0.03, color: _click ? Colors.white : Colors.black,),
+                                        SizedBox(width: screenWidth * 0.005,),
+                                        Text('Top 10' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034, color: _click ? Colors.white : Colors.black))
                                       ],
                                     ),
                                   ),
@@ -686,13 +684,13 @@ class _NewTournamentState extends State<NewTournament> {
                       //or text
                       Visibility(
                         visible: ortext,
-                          child: const Text('or', style:  TextStyle(fontFamily: 'Orbitron', fontSize: 17, color: Color.fromRGBO(255, 15, 24, 10)),)),
+                          child: Text('or', style:  TextStyle(fontFamily: 'Orbitron', fontSize: screenWidth * 0.034, color: const Color.fromRGBO(255, 15, 24, 10)),)),
                       SizedBox(height: screenHeight * 0.008,),
                       //payperkill
                       Visibility(
                         visible: payperkill,
                         child: SizedBox(
-                          width: screenWidth * 0.32,
+                          width: screenWidth * 0.3,
                           child: ElevatedButton(
                             onPressed: (){
                               setState(() {
@@ -728,9 +726,9 @@ class _NewTournamentState extends State<NewTournament> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/Images/crown.png', width: screenWidth * 0.038, color: _click ? Colors.white : Colors.black),
-                                SizedBox(width: screenWidth * 0.0038,),
-                                Text('Pay per kill' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.042, color:  _click ? Colors.white : Colors.black))
+                                Image.asset('assets/Images/crown.png', width: screenWidth * 0.03, color: _click ? Colors.white : Colors.black),
+                                SizedBox(width: screenWidth * 0.005,),
+                                Text('Pay per kill' , style:  TextStyle(fontFamily: 'MSPGothic', fontSize: screenWidth * 0.034, color:  _click ? Colors.white : Colors.black))
                               ],
                             ),
                           ),
@@ -751,10 +749,10 @@ class _NewTournamentState extends State<NewTournament> {
                     visible: _prizepooldist,
                     child: Container(
                       width: screenWidth * 0.8,
-                      height:payperkill ? screenHeight * 0.12 : top2 ? screenHeight * 0.12 : top3 ? screenHeight * 0.156: top5 ? screenHeight * 0.2 : screenHeight * 0.3,
+                      height:payperkill ? screenHeight * 0.08 : top2 ? screenHeight * 0.1 : top3 ? screenHeight * 0.16: top5 ? screenHeight * 0.25 : screenHeight * 0.35,
 
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(20, 20, 20, 1),
+                          color: const Color.fromRGBO(20, 20, 20, 1),
                         borderRadius: BorderRadius.circular(13),
                       ),
                       child: Column(
@@ -763,499 +761,471 @@ class _NewTournamentState extends State<NewTournament> {
                         children: [
                           Visibility(
                             visible: top1 || top2 || top3 || top5 || top10 ? false : true,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 7, 15, 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: screenWidth * 0.25,
-                                    child: const TextField(
-                                      textAlign: TextAlign.center,
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        label: Center(
-                                          child: Text(
-                                            'Prize per kill',
-                                            style: TextStyle(
-                                              fontFamily: 'MSPGothic',
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: screenWidth * 0.25,
+                                  child: TextField(
+                                    textAlign: TextAlign.center,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      label: Center(
+                                        child: Text(
+                                          'Prize per kill',
+                                          style: TextStyle(
+                                            fontFamily: 'MSPGothic',
+                                            fontSize: screenWidth * 0.034,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.all(0.0),
-                                        enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              width: 1.2,
-                                              color: Color.fromRGBO(128, 8, 12, 1),
-                                            )),
                                       ),
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.all(0.0),
+                                      enabledBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            width: 1.2,
+                                            color: Color.fromRGBO(128, 8, 12, 1),
+                                          )),
                                     ),
-                                    //SizedBox(width:screenWidth * 0.001 ,),
-
                                   ),
-                                  Image.asset(
-                                    'assets/Images/chips.png',
-                                    width: screenWidth * 0.055,
-                                  )
-                                ],
-                              ),
+                                  //SizedBox(width:screenWidth * 0.001 ,),
+
+                                ),
+                                Image.asset(
+                                  'assets/Images/chips.png',
+                                  width: screenWidth * 0.04,
+                                )
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                            child: Row(
-                              children: [
-                                Visibility(
-                                  visible:top1 || payperkill ? false : true,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child:
-                                                const TextField(
-                                                  textAlign: TextAlign.center,
-                                                  keyboardType: TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    label: Center(
-                                                      child: Text(
-                                                        'Rank 1 Prize',
-                                                        style: TextStyle(
-                                                          fontFamily: 'MSPGothic',
-                                                          fontSize: 16,
-                                                          color: Colors.white,
-                                                        ),
+                          Row(
+                            children: [
+                              Visibility(
+                                visible:top1 || payperkill ? false : true,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                        width: screenWidth * 0.23,
+                                        child: TextField(
+                                                textAlign: TextAlign.center,
+                                                keyboardType: TextInputType.number,
+                                                decoration: InputDecoration(
+                                                  label: Center(
+                                                    child: Text(
+                                                      'Rank 1 Prize',
+                                                      style: TextStyle(
+                                                        fontFamily: 'MSPGothic',
+                                                        fontSize: screenWidth * 0.034,
+                                                        color: Colors.white,
                                                       ),
                                                     ),
-                                                    isDense: true,
-                                                    contentPadding: EdgeInsets.all(0.0),
-                                                    enabledBorder: UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          width: 1.2,
-                                                          color: Color.fromRGBO(128, 8, 12, 1),
-                                                        )),
                                                   ),
-                                                ),
-                                                //SizedBox(width:screenWidth * 0.001 ,),
-
-                                        ),
-
-                                      Image.asset(
-                                        'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                //SizedBox(width:screenWidth * 0.25 ,),
-
-                                      Visibility(
-                                        visible: top1 || payperkill ? false : true,
-                                        child:Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child: const TextField(
-                                            textAlign: TextAlign.center,
-                                            // controller: _titlecontroller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              label: Center(
-                                                child: Text(
-                                                  'Rank 2 Prize',
-                                                  style: TextStyle(
-                                                    fontFamily: 'MSPGothic',
-                                                    fontSize: 16,
-                                                    color: Colors.white
-                                                    ,
-                                                  ),
+                                                  isDense: true,
+                                                  contentPadding: const EdgeInsets.all(0.0),
+                                                  enabledBorder: const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        width: 1.2,
+                                                        color: Color.fromRGBO(128, 8, 12, 1),
+                                                      )),
                                                 ),
                                               ),
-                                              isDense: true,
-                                              contentPadding: EdgeInsets.all(0.0),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 1.2,
-                                                    color: Color.fromRGBO(128, 8, 12, 1),
-                                                  )),
+                                              //SizedBox(width:screenWidth * 0.001 ,),
+
+                                      ),
+
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //SizedBox(width:screenWidth * 0.25 ,),
+
+                                    Visibility(
+                                      visible: top1 || payperkill ? false : true,
+                                      child:Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            SizedBox(
+                                        width: screenWidth * 0.23,
+                                        child:TextField(
+                                          textAlign: TextAlign.center,
+                                          // controller: _titlecontroller,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            label: Center(
+                                              child: Text(
+                                                'Rank 2 Prize',
+                                                style: TextStyle(
+                                                  fontFamily: 'MSPGothic',
+                                                  fontSize: screenWidth * 0.034,
+                                                  color: Colors.white
+                                                  ,
+                                                ),
+                                              ),
                                             ),
+                                            isDense: true,
+                                            contentPadding: const EdgeInsets.all(0.0),
+                                            enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  width: 1.2,
+                                                  color: Color.fromRGBO(128, 8, 12, 1),
+                                                )),
                                           ),
                                         ),
+                                      ),
 
-                                      Image.asset(
-                                        'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
-                                      )
-                                    ],
-                                  ),
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
                                 ),
+                              ),
 
-                            ),
+                          ),
                           ]),
-    ),
 
 
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                          Row(
+                            children: [
+                              Visibility(
+                              visible: top1 || top2 || payperkill ? false : true,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenWidth * 0.23,
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          label: Center(
+                                            child: Text(
+                                              'Rank 3 Prize',
+                                              style: TextStyle(
+                                                fontFamily: 'MSPGothic',
+                                                fontSize: screenWidth * 0.034,
+                                                color: Colors.white,
+                                              )
+                                            ),
+                                          ),
+                                          isDense: true,
+                                          contentPadding: const EdgeInsets.all(0.0),
+                                          enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 1.2,
+                                                color: Color.fromRGBO(128, 8, 12, 1),
+                                              )),
+                                        ),
+                                      ),
+                                      //SizedBox(width:screenWidth * 0.001 ,),
 
-                            child: Row(
-                              children: [
-                                Visibility(
-                                visible: top1 || top2 || payperkill ? false : true,
+                                    ),
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //SizedBox(width:screenWidth * 0.25 ,),
+                              Visibility(
+                              visible: top1 || top2 || top3 || payperkill ? false : true,
+                                child: Expanded(
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       SizedBox(
-                                        width: screenWidth * 0.25,
-                                        child:
-                                        const TextField(
+                                        width: screenWidth * 0.23,
+                                        child: TextField(
                                           textAlign: TextAlign.center,
+                                          // controller: _titlecontroller,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             label: Center(
                                               child: Text(
-                                                'Rank 3 Prize',
+                                                'Rank 4 Prize',
                                                 style: TextStyle(
                                                   fontFamily: 'MSPGothic',
-                                                  fontSize: 16,
+                                                  fontSize: screenWidth * 0.034,
                                                   color: Colors.white,
-                                                )
+                                                ),
                                               ),
                                             ),
                                             isDense: true,
-                                            contentPadding: EdgeInsets.all(0.0),
-                                            enabledBorder: UnderlineInputBorder(
+                                            contentPadding: const EdgeInsets.all(0.0),
+                                            enabledBorder: const UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                   width: 1.2,
                                                   color: Color.fromRGBO(128, 8, 12, 1),
                                                 )),
                                           ),
                                         ),
-                                        //SizedBox(width:screenWidth * 0.001 ,),
-
                                       ),
                                       Image.asset(
                                         'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
+                                        width: screenWidth * 0.04,
                                       )
                                     ],
                                   ),
                                 ),
-                                //SizedBox(width:screenWidth * 0.25 ,),
-                                Visibility(
-                                visible: top1 || top2 || top3 || payperkill ? false : true,
-                                  child: Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child: const TextField(
-                                            textAlign: TextAlign.center,
-                                            // controller: _titlecontroller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              label: Center(
-                                                child: Text(
-                                                  'Rank 4 Prize',
-                                                  style: TextStyle(
-                                                    fontFamily: 'MSPGothic',
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              isDense: true,
-                                              contentPadding: EdgeInsets.all(0.0),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 1.2,
-                                                    color: Color.fromRGBO(128, 8, 12, 1),
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                        Image.asset(
-                                          'assets/Images/chips.png',
-                                          width: screenWidth * 0.055,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                            child: Row(
-                              children: [
-                                Visibility(
-                                  visible: top1 || top2 || top3 || payperkill  ? false : true,
+                          Row(
+                            children: [
+                              Visibility(
+                                visible: top1 || top2 || top3 || payperkill  ? false : true,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenWidth * 0.23,
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          label: Center(
+                                            child: Text(
+                                              'Rank 5 Prize',
+                                              style: TextStyle(
+                                                fontFamily: 'MSPGothic',
+                                                fontSize: screenWidth * 0.034,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          isDense: true,
+                                          contentPadding: const EdgeInsets.all(0.0),
+                                          enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 1.2,
+                                                color: Color.fromRGBO(128, 8, 12, 1),
+                                              )),
+                                        ),
+                                      ),
+                                      //SizedBox(width:screenWidth * 0.001 ,),
+
+                                    ),
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //SizedBox(width:screenWidth * 0.25 ,),
+                              Visibility(
+                              visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
+                                child: Expanded(
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       SizedBox(
-                                        width: screenWidth * 0.25,
-                                        child:
-                                        const TextField(
+                                        width: screenWidth * 0.23,
+                                        child: TextField(
                                           textAlign: TextAlign.center,
+                                          // controller: _titlecontroller,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             label: Center(
                                               child: Text(
-                                                'Rank 5 Prize',
+                                                'Rank 6 Prize',
                                                 style: TextStyle(
                                                   fontFamily: 'MSPGothic',
-                                                  fontSize: 16,
+                                                  fontSize: screenWidth * 0.034,
                                                   color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                             isDense: true,
-                                            contentPadding: EdgeInsets.all(0.0),
-                                            enabledBorder: UnderlineInputBorder(
+                                            contentPadding: const EdgeInsets.all(0.0),
+                                            enabledBorder: const UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                   width: 1.2,
                                                   color: Color.fromRGBO(128, 8, 12, 1),
                                                 )),
                                           ),
                                         ),
-                                        //SizedBox(width:screenWidth * 0.001 ,),
-
                                       ),
                                       Image.asset(
                                         'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
+                                        width: screenWidth * 0.04,
                                       )
                                     ],
                                   ),
                                 ),
-                                //SizedBox(width:screenWidth * 0.25 ,),
-                                Visibility(
-                                visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
-                                  child: Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child: const TextField(
-                                            textAlign: TextAlign.center,
-                                            // controller: _titlecontroller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              label: Center(
-                                                child: Text(
-                                                  'Rank 6 Prize',
-                                                  style: TextStyle(
-                                                    fontFamily: 'MSPGothic',
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              isDense: true,
-                                              contentPadding: EdgeInsets.all(0.0),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 1.2,
-                                                    color: Color.fromRGBO(128, 8, 12, 1),
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                        Image.asset(
-                                          'assets/Images/chips.png',
-                                          width: screenWidth * 0.055,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                            child: Row(
-                              children: [
-                                Visibility(
+                          Row(
+                            children: [
+                              Visibility(
+                              visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenWidth * 0.23,
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          label: Center(
+                                            child: Text(
+                                              'Rank 7 Prize',
+                                              style: TextStyle(
+                                                fontFamily: 'MSPGothic',
+                                                fontSize: screenWidth * 0.034,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          isDense: true,
+                                          contentPadding: const EdgeInsets.all(0.0),
+                                          enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 1.2,
+                                                color: Color.fromRGBO(128, 8, 12, 1),
+                                              )),
+                                        ),
+                                      ),
+                                      //SizedBox(width:screenWidth * 0.001 ,),
+
+                                    ),
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //SizedBox(width:screenWidth * 0.25 ,),
+                              Visibility(
                                 visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
+
+                                child: Expanded(
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       SizedBox(
-                                        width: screenWidth * 0.25,
-                                        child:
-                                        const TextField(
+                                        width: screenWidth * 0.23,
+                                        child: TextField(
                                           textAlign: TextAlign.center,
+                                          // controller: _titlecontroller,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             label: Center(
                                               child: Text(
-                                                'Rank 7 Prize',
+                                                'Rank 8 Prize',
                                                 style: TextStyle(
                                                   fontFamily: 'MSPGothic',
-                                                  fontSize: 16,
+                                                  fontSize: screenWidth * 0.034,
                                                   color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                             isDense: true,
-                                            contentPadding: EdgeInsets.all(0.0),
-                                            enabledBorder: UnderlineInputBorder(
+                                            contentPadding: const EdgeInsets.all(0.0),
+                                            enabledBorder: const UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                   width: 1.2,
                                                   color: Color.fromRGBO(128, 8, 12, 1),
                                                 )),
                                           ),
                                         ),
-                                        //SizedBox(width:screenWidth * 0.001 ,),
-
                                       ),
                                       Image.asset(
                                         'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
+                                        width: screenWidth * 0.04,
                                       )
                                     ],
                                   ),
                                 ),
-                                //SizedBox(width:screenWidth * 0.25 ,),
-                                Visibility(
-                                  visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
-
-                                  child: Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child: const TextField(
-                                            textAlign: TextAlign.center,
-                                            // controller: _titlecontroller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              label: Center(
-                                                child: Text(
-                                                  'Rank 8 Prize',
-                                                  style: TextStyle(
-                                                    fontFamily: 'MSPGothic',
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              isDense: true,
-                                              contentPadding: EdgeInsets.all(0.0),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 1.2,
-                                                    color: Color.fromRGBO(128, 8, 12, 1),
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                        Image.asset(
-                                          'assets/Images/chips.png',
-                                          width: screenWidth * 0.055,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-
+                              ),
+                            ],
                           ),
                           Visibility(
                             visible: top1 || top2 || top3 || top5 || payperkill ? false : true,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                              child: Row(
-                                children: [
-                                  Row(
+                            child: Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenWidth * 0.23,
+                                      child: TextField(
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          label: Center(
+                                            child: Text(
+                                              'Rank 9 Prize',
+                                              style: TextStyle(
+                                                fontFamily: 'MSPGothic',
+                                                fontSize: screenWidth * 0.034,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          isDense: true,
+                                          contentPadding: const EdgeInsets.all(0.0),
+                                          enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 1.2,
+                                                color: Color.fromRGBO(128, 8, 12, 1),
+                                              )),
+                                        ),
+                                      ),
+                                      //SizedBox(width:screenWidth * 0.001 ,),
+
+                                    ),
+                                    Image.asset(
+                                      'assets/Images/chips.png',
+                                      width: screenWidth * 0.04,
+                                    )
+                                  ],
+                                ),
+                                //SizedBox(width:screenWidth * 0.25 ,),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       SizedBox(
-                                        width: screenWidth * 0.25,
-                                        child:
-                                        const TextField(
+                                        width: screenWidth * 0.23,
+                                        child: TextField(
                                           textAlign: TextAlign.center,
+                                          // controller: _titlecontroller,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                             label: Center(
                                               child: Text(
-                                                'Rank 9 Prize',
+                                                'Rank 10 Prize',
                                                 style: TextStyle(
                                                   fontFamily: 'MSPGothic',
-                                                  fontSize: 16,
+                                                  fontSize: screenWidth * 0.034,
                                                   color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                             isDense: true,
-                                            contentPadding: EdgeInsets.all(0.0),
-                                            enabledBorder: UnderlineInputBorder(
+                                            contentPadding: const EdgeInsets.all(0.0),
+                                            enabledBorder: const UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                   width: 1.2,
                                                   color: Color.fromRGBO(128, 8, 12, 1),
                                                 )),
                                           ),
                                         ),
-                                        //SizedBox(width:screenWidth * 0.001 ,),
-
                                       ),
                                       Image.asset(
                                         'assets/Images/chips.png',
-                                        width: screenWidth * 0.055,
+                                        width: screenWidth * 0.04,
                                       )
                                     ],
                                   ),
-                                  //SizedBox(width:screenWidth * 0.25 ,),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: screenWidth * 0.25,
-                                          child: const TextField(
-                                            textAlign: TextAlign.center,
-                                            // controller: _titlecontroller,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                              label: Center(
-                                                child: Text(
-                                                  'Rank 10 Prize',
-                                                  style: TextStyle(
-                                                    fontFamily: 'MSPGothic',
-                                                    fontSize: 16,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              isDense: true,
-                                              contentPadding: EdgeInsets.all(0.0),
-                                              enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    width: 1.2,
-                                                    color: Color.fromRGBO(128, 8, 12, 1),
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                        Image.asset(
-                                          'assets/Images/chips.png',
-                                          width: screenWidth * 0.055,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -1272,7 +1242,7 @@ class _NewTournamentState extends State<NewTournament> {
                         child: DropdownButtonFormField<String>(
                           //menuMaxHeight: 200,
                           itemHeight: null,
-                          hint: Text('Choose your Map', style: TextStyle(
+                          hint: const Text('Choose your Map', style: TextStyle(
                             color: Color.fromRGBO(128, 8, 12, 1),
                             fontFamily: 'Orbitron',
                             fontSize: 12
@@ -1326,10 +1296,10 @@ class _NewTournamentState extends State<NewTournament> {
                             });
                           },
                           borderRadius: const BorderRadius.all(Radius.circular(13)),
-                          selectedBorderColor: Color.fromRGBO(255, 15,24, 1),
+                          selectedBorderColor: const Color.fromRGBO(255, 15,24, 1),
                           selectedColor: Colors.white,
-                          fillColor: Color.fromRGBO(255, 15,24, 1),
-                          color:Color.fromRGBO(255, 15,24, 1),
+                          fillColor: const Color.fromRGBO(255, 15,24, 1),
+                          color:const Color.fromRGBO(255, 15,24, 1),
                           constraints: const BoxConstraints(
                             minHeight: 40.0,
                             minWidth: 80.0,
@@ -1355,10 +1325,10 @@ class _NewTournamentState extends State<NewTournament> {
                         });
                       },
                       borderRadius: const BorderRadius.all(Radius.circular(13)),
-                      selectedBorderColor: Color.fromRGBO(255, 15,24, 1),
+                      selectedBorderColor: const Color.fromRGBO(255, 15,24, 1),
                       selectedColor: Colors.white,
-                      fillColor: Color.fromRGBO(255, 15,24, 1),
-                      color:Color.fromRGBO(255, 15,24, 1),
+                      fillColor: const Color.fromRGBO(255, 15,24, 1),
+                      color:const Color.fromRGBO(255, 15,24, 1),
                       constraints: BoxConstraints(
                         minHeight: screenHeight * 0.046,
                         minWidth: screenWidth * 0.24
@@ -1389,7 +1359,7 @@ class _NewTournamentState extends State<NewTournament> {
                         ),
 
                       ),
-                      child: Text('Host Tournament' , style: const TextStyle(
+                      child: const Text('Host Tournament' , style: TextStyle(
                         fontFamily: 'Orbitron',
                       ),),
                     ),
@@ -1400,7 +1370,7 @@ class _NewTournamentState extends State<NewTournament> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.close_rounded, color: Color.fromRGBO(255, 15, 24, 1),)),
+                      icon: const Icon(Icons.close_rounded, color: Color.fromRGBO(255, 15, 24, 1),)),
                 ],
               ),
     ),])),
