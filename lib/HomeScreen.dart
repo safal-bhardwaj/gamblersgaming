@@ -213,46 +213,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       color: Color.fromRGBO(
                                                           128, 8, 12, 1))),
                                             ),
-                                            child: Expanded(
-                                              flex: 1,
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    Card_List[index]["Title"],
-                                                    style: TextStyle(
-                                                        fontFamily: "orbitron",
-                                                        fontSize: fontSize * 10),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.people,
-                                                          color: Color.fromRGBO(
-                                                              128, 8, 12, 1),
-                                                        ),
-                                                        SizedBox(
-                                                          width: screenWidth *
-                                                              0.013,
-                                                        ),
-                                                        Text(
-                                                          "${Card_List[index]["Participants"].length}/${Card_List[index]["Game"] == "Asphalt" ? 8 : 100}",
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  fontSize * 11,
-                                                              fontFamily:
-                                                                  "MSPGothic"),
-                                                        ),
-                                                        //SizedBox(width: 3,),
-                                                      ],
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  Card_List[index]["Title"],
+                                                  style: TextStyle(
+                                                      fontFamily: "orbitron",
+                                                      fontSize: fontSize * 10),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.people,
+                                                      color: Color.fromRGBO(
+                                                          128, 8, 12, 1),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
+                                                    SizedBox(
+                                                      width: screenWidth *
+                                                          0.013,
+                                                    ),
+                                                    Text(
+                                                      "${Card_List[index]["Participants"].length}/${Card_List[index]["Game"] == "Asphalt" ? 8 : 100}",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              fontSize * 11,
+                                                          fontFamily:
+                                                              "MSPGothic"),
+                                                    ),
+                                                    //SizedBox(width: 3,),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
