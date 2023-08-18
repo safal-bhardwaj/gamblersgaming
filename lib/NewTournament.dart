@@ -77,6 +77,8 @@ class _NewTournamentState extends State<NewTournament> {
   bool _showrestbuttons = true;
   int _showimg = 0;
   String prizeDist = "";
+  late String? _selectedModesText;
+  late String _selectedPlayersText;
 
   List<bool> _individualPrizePoolButtons = [
     true, true, true, true, true, true, true, false
@@ -1661,7 +1663,7 @@ class _NewTournamentState extends State<NewTournament> {
                           _selectedmodes[i] = i == index;
                         }
 
-                        String? _selectedModesText = (modes[index] as Text).data;
+                        _selectedModesText = (modes[index] as Text).data;
                       });
                     },
                     borderRadius: const BorderRadius.all(Radius.circular(13)),
@@ -1680,6 +1682,9 @@ class _NewTournamentState extends State<NewTournament> {
                 SizedBox(
                   height: screenHeight * 0.05,
                 ),
+
+
+                //players
                 Visibility(
                   visible: _showrestbuttons,
                   child: ToggleButtons(
@@ -1690,7 +1695,7 @@ class _NewTournamentState extends State<NewTournament> {
                         for (int i = 0; i < _selectedplayers.length; i++) {
                           _selectedplayers[i] = i == index;
                         }
-                        String _selectedPlayersText = players[index].text;
+                        _selectedPlayersText = players[index].text;
 
                       });
                     },
