@@ -11,6 +11,12 @@ class NewTournament extends StatefulWidget {
   }
 }
 
+class IconWithText {
+  final Icon icon;
+  final String text;
+  IconWithText({required this.icon, required this.text});
+}
+
 class _NewTournamentState extends State<NewTournament> {
   //Backend
   //variables
@@ -33,8 +39,8 @@ class _NewTournamentState extends State<NewTournament> {
 
     _Title = _titlecontroller.text;
     _Game = dropdownvalue;
-    _RegFee = int.parse(regPrice.text);
-    _PrizePool = int.parse(prizePool.text);
+    _RegFee = int.parse(_regPrice.text);
+    _PrizePool = int.parse(_prizePool.text);
     _PrizePoolDist = prizeDist;
     print(_PrizePoolDist);
     await FirebaseFirestore.instance.collection('Hosted Tournaments').add({
@@ -53,6 +59,7 @@ class _NewTournamentState extends State<NewTournament> {
   }
 
 // front end variables
+
 //   Map<String, bool> _individualPrizePoolButtons = {
 //   '_top1' : true,
 //   '_top2' : true,
@@ -107,10 +114,10 @@ class _NewTournamentState extends State<NewTournament> {
   ];
 
   final List<bool> _selectedmodes = <bool>[true, false];
-  static const List<Widget> players = <Widget>[
-    Icon(Icons.person),
-    Icon(Icons.group),
-    Icon(Icons.group_add)
+  static  List<IconWithText> players = <IconWithText>[
+    IconWithText(icon : Icon(Icons.person), text: 'single'),
+    IconWithText(icon: Icon(Icons.group), text: 'duo'),
+    IconWithText(icon: Icon(Icons.group_add), text: 'squad')
   ];
   final List<bool> _selectedplayers = <bool>[true, false, false];
 
@@ -122,13 +129,24 @@ class _NewTournamentState extends State<NewTournament> {
     'assets/Images/callofduty.jpg'
   ];
   final _titlecontroller = TextEditingController();
-  TextEditingController timeInput = TextEditingController();
-  TextEditingController prizePool = TextEditingController();
-  TextEditingController regPrice = TextEditingController();
+  TextEditingController _timeInput = TextEditingController();
+  TextEditingController _prizePool = TextEditingController();
+  TextEditingController _regPrice = TextEditingController();
+  TextEditingController _top1Prize = TextEditingController();
+  TextEditingController _top2Prize = TextEditingController();
+  TextEditingController _top3Prize = TextEditingController();
+  TextEditingController _top4Prize = TextEditingController();
+  TextEditingController _top5Prize = TextEditingController();
+  TextEditingController _top6Prize = TextEditingController();
+  TextEditingController _top7Prize = TextEditingController();
+  TextEditingController _top8Prize = TextEditingController();
+  TextEditingController _top9Prize = TextEditingController();
+  TextEditingController _top10Prize = TextEditingController();
+  TextEditingController _payPerKillPrize = TextEditingController();
 
   @override
   void initState() {
-    timeInput.text = ""; //set the initial value of text field
+    _timeInput.text = ""; //set the initial value of text field
     super.initState();
   }
 
@@ -164,27 +182,10 @@ class _NewTournamentState extends State<NewTournament> {
   }
 
   TimeOfDay? timeOfDay;
-  _timePicker(BuildContext context) {
+  void _timePicker() {
     showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.black, // <-- SEE HERE
-              onPrimary: Color.fromRGBO(255, 15, 24, 1),  // <-- SEE HERE
-              onSurface: Color.fromRGBO(255, 15, 24, 1), // <-- SEE HERE
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: Color.fromRGBO(255, 15, 24, 1), // button text color
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
     ).then((value) {
       setState(() {
         timeOfDay = value;
@@ -269,7 +270,7 @@ class _NewTournamentState extends State<NewTournament> {
                         screenHeight * 0.01,
                       ),
                       child: TextButton(
-                          onPressed: _timePicker(context),
+                          onPressed: _timePicker,
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
                           ),
@@ -467,7 +468,7 @@ class _NewTournamentState extends State<NewTournament> {
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           child: TextField(
-                            controller: prizePool,
+                            controller: _prizePool,
                             keyboardType: TextInputType.number,
                             style: const TextStyle(
                                 color: Color.fromRGBO(128, 8, 12, 10)),
@@ -545,7 +546,7 @@ class _NewTournamentState extends State<NewTournament> {
                           width: screenWidth * 0.25,
                           height: screenHeight * 0.037,
                           child: TextField(
-                            controller: regPrice,
+                            controller: _regPrice,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               label: const Text(''),
@@ -614,10 +615,11 @@ class _NewTournamentState extends State<NewTournament> {
                             setState(() {
                               prizeDist = "Top 2";
                               _click = !_click;
-                              if (_click == true) {
+                              if (_click) {
                                 _individualPrizePoolButtons[1] = true;
                                 _individualPrizePoolButtons[7] = true;
-                              } else {
+                              }
+                              else {
                                 _individualPrizePoolButtons[7] = false;
                               }
                             });
@@ -663,16 +665,25 @@ class _NewTournamentState extends State<NewTournament> {
                                     setState(() {
                                       prizeDist = "Top 1";
                                       _click = !_click;
-                                      if (_click == true) {
-                                        for (int i = 0; i <_individualPrizePoolButtons.length - 1; i++) {
-                                          _individualPrizePoolButtons[i + 1] =
-                                              false;
-                                        }
+                                      if (_click) {
+                                        // for (int i = 1; i <_individualPrizePoolButtons.length - 1; i++) {
+                                        //   _individualPrizePoolButtons[i] = false;
+                                        // }
+                                        _individualPrizePoolButtons[1] = false;
+                                        _individualPrizePoolButtons[2] = false;
+                                        _individualPrizePoolButtons[3] = false;
+                                        _individualPrizePoolButtons[4] = false;
+                                        _individualPrizePoolButtons[5] = false;
+                                        _individualPrizePoolButtons[6] = false;
                                       } else {
-                                        for (int i = 0; i < _individualPrizePoolButtons.length - 2; i++) {
-                                          _individualPrizePoolButtons[i + 2] =
-                                              true;
-                                        }
+                                        // for (int i = 2; i < _individualPrizePoolButtons.length - 2; i++) {
+                                        //   _individualPrizePoolButtons[i] = true;
+
+                                        //}
+                                        _individualPrizePoolButtons[2] = true;
+                                        _individualPrizePoolButtons[3] = true;
+                                        _individualPrizePoolButtons[4] = true;
+                                        _individualPrizePoolButtons[5] = true;
                                       }
                                     });
                                   },
@@ -715,41 +726,37 @@ class _NewTournamentState extends State<NewTournament> {
                                 visible: _individualPrizePoolButtons[2],
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    prizeDist = "Top 3";
                                     setState(() {
+                                      prizeDist = "Top 3";
                                       _click = !_click;
-                                      if (_click == true) {
-                                        for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
-                                          if (i != 2) {
-                                            _individualPrizePoolButtons[i] = !_individualPrizePoolButtons[i];
-                                          }
-                                        }
-                                        // top1 =  false;
-                                        // top2 = false;
-                                        // top5 = false;
-                                        // top10 = false;
-                                        // payperkill = false;
-                                        // ortext = false;
-                                        // _prizepooldist = true;
-                                      } else {
-                                        for (int i = 0;
-                                            i <
-                                                _individualPrizePoolButtons
-                                                    .length;
-                                            i++) {
-                                          if (i != 2 || i != 7) {
-                                            _individualPrizePoolButtons[i] = true;
-                                          } else if (i == 7) {
-                                            _individualPrizePoolButtons[7] =
-                                                false;
-                                          }
-                                        }
-                                        // top1 =  true;
-                                        // top5 = true;
-                                        // top10 = true;
-                                        // payperkill = true;
-                                        // ortext = true;
-                                        // _prizepooldist = false;
+                                      if (_click) {
+                                        // _individualPrizePoolButtons[7] = true;
+                                        // for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
+                                        //   if (i != 2 || i!=7) {
+                                        //     _individualPrizePoolButtons[i] = false;
+                                        //   }
+                                        // }
+                                        _individualPrizePoolButtons[0] =  false;
+                                        _individualPrizePoolButtons[1] = false;
+                                        _individualPrizePoolButtons[3] = false;
+                                        _individualPrizePoolButtons[4] = false;
+                                        _individualPrizePoolButtons[5] = false;
+                                        _individualPrizePoolButtons[6] = false;
+                                        _individualPrizePoolButtons[7] = true;
+                                      }
+                                      else {
+                                        // _individualPrizePoolButtons[7] = false;
+                                        // for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
+                                        //   if (i != 2 || i != 7) {
+                                        //     _individualPrizePoolButtons[i] = true;
+                                        //   }
+                                        // }
+                                        _individualPrizePoolButtons[0] =  true;
+                                        _individualPrizePoolButtons[3] = true;
+                                        _individualPrizePoolButtons[4] = true;
+                                        _individualPrizePoolButtons[5] = true;
+                                        _individualPrizePoolButtons[6] = true;
+                                        _individualPrizePoolButtons[7] = false;
                                       }
                                     });
                                   },
@@ -797,42 +804,35 @@ class _NewTournamentState extends State<NewTournament> {
                                       prizeDist = "Top 5";
                                       _click = !_click;
                                       if (_click == true) {
-                                        for (int i = 0;
-                                            i <
-                                                _individualPrizePoolButtons
-                                                    .length;
-                                            i++) {
-                                          if (i != 3) {
-                                            _individualPrizePoolButtons[i] =
-                                                !_individualPrizePoolButtons[i];
-                                          }
-                                        }
-                                        // top1 = false;
-                                        // top2 = false;
-                                        // top3 = false;
-                                        // top10 = false;
-                                        // payperkill = false;
-                                        // ortext = false;
-                                        // _prizepooldist = true;
-                                      } else {
-                                        for (int i = 0;
-                                            i <
-                                                _individualPrizePoolButtons
-                                                    .length;
-                                            i++) {
-                                          if (i != 3 || i != 7) {
-                                            _individualPrizePoolButtons[i] = true;
-                                          } else if (i == 7) {
-                                            _individualPrizePoolButtons[7] =
-                                                false;
-                                          }
-                                        }
-                                        // top1 = true;
-                                        // top3 = true;
-                                        // top10 = true;
-                                        // payperkill = true;
-                                        // ortext = true;
-                                        // _prizepooldist = false;
+                                        // _individualPrizePoolButtons[7] = true;
+                                        // for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
+                                        //   if (i != 3) {
+                                        //     _individualPrizePoolButtons[i] = false;
+                                        //   }
+                                        // }
+                                        _individualPrizePoolButtons[0] = false;
+                                        _individualPrizePoolButtons[1]= false;
+                                        _individualPrizePoolButtons[2] = false;
+                                        _individualPrizePoolButtons[4] = false;
+                                        _individualPrizePoolButtons[5] = false;
+                                        _individualPrizePoolButtons[6] = false;
+                                        _individualPrizePoolButtons[7] = true;
+                                      } else if(_click == false) {
+                                        // _individualPrizePoolButtons[7] =
+                                        // false;
+                                        // for (int i = 0;
+                                        //     i < _individualPrizePoolButtons.length;
+                                        //     i++) {
+                                        //   if (i != 3 || i != 7) {
+                                        //     _individualPrizePoolButtons[i] = true;
+                                        //   }
+                                        // }
+                                        _individualPrizePoolButtons[0] = true;
+                                        _individualPrizePoolButtons[2] = true;
+                                        _individualPrizePoolButtons[4] = true;
+                                        _individualPrizePoolButtons[5] = true;
+                                        _individualPrizePoolButtons[6] = true;
+                                        _individualPrizePoolButtons[7] = false;
                                       }
                                     });
                                   },
@@ -880,43 +880,35 @@ class _NewTournamentState extends State<NewTournament> {
                                       prizeDist = "Top 10";
                                       _click = !_click;
                                       if (_click == true) {
-                                        for (int i = 0;
-                                            i <
-                                                _individualPrizePoolButtons
-                                                    .length;
-                                            i++) {
-                                          if (i != 4) {
-                                            _individualPrizePoolButtons[i] =
-                                                !_individualPrizePoolButtons[i];
-                                          }
-                                        }
+                                        // for (int i = 0;i <_individualPrizePoolButtons.lengthi;i++) {
+                                        //   if (i != 4) {
+                                        //     _individualPrizePoolButtons[i] =
+                                        //         !_individualPrizePoolButtons[i];
+                                        //   }
+                                        // }
 
-                                        // top1 = false;
-                                        // top2 = false;
-                                        // top3 = false;
-                                        // top5 = false;
-                                        // payperkill = false;
-                                        // ortext = false;
-                                        // _prizepooldist = true;
+                                        _individualPrizePoolButtons[0] = false;
+                                        _individualPrizePoolButtons[1] = false;
+                                        _individualPrizePoolButtons[2] = false;
+                                        _individualPrizePoolButtons[3] = false;
+                                        _individualPrizePoolButtons[5] = false;
+                                        _individualPrizePoolButtons[6] = false;
+                                        _individualPrizePoolButtons[7] = true;
                                       } else {
-                                        for (int i = 0;
-                                            i <
-                                                _individualPrizePoolButtons
-                                                    .length;
-                                            i++) {
-                                          if (i != 4 || i != 7) {
-                                            _individualPrizePoolButtons[i] = true;
-                                          } else if (i == 7) {
-                                            _individualPrizePoolButtons[7] =
-                                                false;
-                                          }
-                                        }
-                                        // top1 = true;
-                                        // top3 = true;
-                                        // top5 = true;
-                                        // payperkill = true;
-                                        // ortext = true;
-                                        // _prizepooldist = false;
+                                        // for (int i = 0;i <_individualPrizePoolButtons.length ; i++) {
+                                        //   if (i != 4 || i != 7) {
+                                        //     _individualPrizePoolButtons[i] = true;
+                                        //   } else if (i == 7) {
+                                        //     _individualPrizePoolButtons[7] =
+                                        //         false;
+                                        //   }
+                                        // }
+                                        _individualPrizePoolButtons[0] = true;
+                                        _individualPrizePoolButtons[2] = true;
+                                        _individualPrizePoolButtons[3] = true;
+                                        _individualPrizePoolButtons[5] = true;
+                                        _individualPrizePoolButtons[6] = true;
+                                        _individualPrizePoolButtons[7] = false;
                                       }
                                     });
                                   },
@@ -981,38 +973,37 @@ class _NewTournamentState extends State<NewTournament> {
                                   setState(() {
                                     prizeDist = "Pay per kill";
                                     _click = !_click;
-                                    if (_click == true) {
-                                      for (int i = 0;
-                                          i < _individualPrizePoolButtons.length;
-                                          i++) {
-                                        if (i != 5) {
-                                          _individualPrizePoolButtons[i] =
-                                              !_individualPrizePoolButtons[i];
-                                        }
-                                      }
-                                      // ortext = false;
-                                      // top1 = false;
-                                      // top2 = false;
-                                      // top10 = false;
-                                      // top3 = false;
-                                      // top5 = false;
-                                      // _prizepooldist = true;
-                                    } else {
-                                      for (int i = 0;
-                                          i < _individualPrizePoolButtons.length;
-                                          i++) {
-                                        if (i != 5 || i != 7) {
-                                          _individualPrizePoolButtons[i] = true;
-                                        } else if (i == 7) {
-                                          _individualPrizePoolButtons[7] = false;
-                                        }
-                                      }
-                                      // ortext = true;
-                                      // top1 = true;
-                                      // top10 = true;
-                                      // top3 = true;
-                                      // top5 = true;
-                                      // _prizepooldist = false;
+                                    if (_click){
+                                      // _individualPrizePoolButtons[7] == true;
+                                      // for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
+                                      //   if (i != 5 && i != 7) {
+                                      //     _individualPrizePoolButtons[i] = false;
+                                      //   }
+                                      // }
+
+                                      _individualPrizePoolButtons[6] = false;
+                                      _individualPrizePoolButtons[0] = false;
+                                      _individualPrizePoolButtons[1] = false;
+                                      _individualPrizePoolButtons[2] = false;
+                                      _individualPrizePoolButtons[3] = false;
+                                      _individualPrizePoolButtons[4] = false;
+                                      _individualPrizePoolButtons[7] = true;
+                                    } else if(_click == false) {
+
+                                      // for (int i = 0; i < _individualPrizePoolButtons.length; i++) {
+                                      //   if (i != 5 || i != 7) {
+                                      //     _individualPrizePoolButtons[i] = true;
+                                      //   }
+                                      //   else{
+                                      //     _individualPrizePoolButtons[i] = false;
+                                      //   }
+                                      // }
+                                      _individualPrizePoolButtons[6] = true;
+                                      _individualPrizePoolButtons[1] = true;
+                                      _individualPrizePoolButtons[4] = true;
+                                      _individualPrizePoolButtons[2] = true;
+                                      _individualPrizePoolButtons[3] = true;
+                                      _individualPrizePoolButtons[7] = false;
                                     }
                                   });
                                 },
@@ -1060,8 +1051,7 @@ class _NewTournamentState extends State<NewTournament> {
                   visible: _individualPrizePoolButtons[7],
                   child: Container(
                     width: screenWidth * 0.8,
-                    height: _individualPrizePoolButtons[5]
-                        ? screenHeight * 0.08
+                    height: _individualPrizePoolButtons[5] ? screenHeight * 0.08
                         : _individualPrizePoolButtons[1]
                             ? screenHeight * 0.1
                             : _individualPrizePoolButtons[2]
@@ -1092,6 +1082,7 @@ class _NewTournamentState extends State<NewTournament> {
                                 child: TextField(
                                   textAlign: TextAlign.center,
                                   keyboardType: TextInputType.number,
+                                  controller: _payPerKillPrize,
                                   decoration: InputDecoration(
                                     label: Center(
                                       child: Text(
@@ -1134,6 +1125,7 @@ class _NewTournamentState extends State<NewTournament> {
                                   child: TextField(
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
+                                    controller: _top1Prize,
                                     decoration: InputDecoration(
                                       label: Center(
                                         child: Text(
@@ -1176,7 +1168,7 @@ class _NewTournamentState extends State<NewTournament> {
                                     width: screenWidth * 0.23,
                                     child: TextField(
                                       textAlign: TextAlign.center,
-                                      // controller: _titlecontroller,
+                                      controller: _top2Prize,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                         label: Center(
@@ -1223,6 +1215,7 @@ class _NewTournamentState extends State<NewTournament> {
                                     child: TextField(
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
+                                      controller: _top3Prize,
                                       decoration: InputDecoration(
                                         label: Center(
                                           child: Text('Rank 3 Prize',
@@ -1266,7 +1259,7 @@ class _NewTournamentState extends State<NewTournament> {
                                       width: screenWidth * 0.23,
                                       child: TextField(
                                         textAlign: TextAlign.center,
-                                        // controller: _titlecontroller,
+                                        controller: _top4Prize,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           label: Center(
@@ -1317,6 +1310,7 @@ class _NewTournamentState extends State<NewTournament> {
                                     child: TextField(
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
+                                      controller: _top5Prize,
                                       decoration: InputDecoration(
                                         label: Center(
                                           child: Text(
@@ -1363,7 +1357,7 @@ class _NewTournamentState extends State<NewTournament> {
                                       width: screenWidth * 0.23,
                                       child: TextField(
                                         textAlign: TextAlign.center,
-                                        // controller: _titlecontroller,
+                                        controller: _top6Prize,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           label: Center(
@@ -1415,6 +1409,7 @@ class _NewTournamentState extends State<NewTournament> {
                                     child: TextField(
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
+                                      controller: _top7Prize,
                                       decoration: InputDecoration(
                                         label: Center(
                                           child: Text(
@@ -1461,7 +1456,7 @@ class _NewTournamentState extends State<NewTournament> {
                                       width: screenWidth * 0.23,
                                       child: TextField(
                                         textAlign: TextAlign.center,
-                                        // controller: _titlecontroller,
+                                        controller: _top8Prize,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           label: Center(
@@ -1513,6 +1508,7 @@ class _NewTournamentState extends State<NewTournament> {
                                     child: TextField(
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.number,
+                                      controller: _top9Prize,
                                       decoration: InputDecoration(
                                         label: Center(
                                           child: Text(
@@ -1550,7 +1546,7 @@ class _NewTournamentState extends State<NewTournament> {
                                       width: screenWidth * 0.23,
                                       child: TextField(
                                         textAlign: TextAlign.center,
-                                        // controller: _titlecontroller,
+                                        controller: _top10Prize,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           label: Center(
@@ -1664,6 +1660,8 @@ class _NewTournamentState extends State<NewTournament> {
                         for (int i = 0; i < _selectedmodes.length; i++) {
                           _selectedmodes[i] = i == index;
                         }
+
+                        String? _selectedModesText = (modes[index] as Text).data;
                       });
                     },
                     borderRadius: const BorderRadius.all(Radius.circular(13)),
@@ -1692,6 +1690,8 @@ class _NewTournamentState extends State<NewTournament> {
                         for (int i = 0; i < _selectedplayers.length; i++) {
                           _selectedplayers[i] = i == index;
                         }
+                        String _selectedPlayersText = players[index].text;
+
                       });
                     },
                     borderRadius: const BorderRadius.all(Radius.circular(13)),
@@ -1703,7 +1703,7 @@ class _NewTournamentState extends State<NewTournament> {
                         minHeight: screenHeight * 0.046,
                         minWidth: screenWidth * 0.24),
                     isSelected: _selectedplayers,
-                    children: players,
+                    children: players.map((iconWithText) => iconWithText.icon).toList(),
                   ),
                 ),
 
