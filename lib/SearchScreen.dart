@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/Tournament_Screen.dart';
 import 'package:intl/intl.dart';
 
 
@@ -14,12 +15,19 @@ class SearchScreen extends StatefulWidget{
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+
+  // Variables
+
+
   String _searchQuery = '';
   List<Map<String, dynamic>> _searchResults = [];
+  String _docName = '' ;
   final formatter = DateFormat.yMMMMd('en_US');
 
 
   //Backend
+
+
     void _performSearch(String _searchQuery) async
     {
 
@@ -32,6 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
 
             setState(() {
+              _docName = querySnapshot.docs.toString();
               _searchResults =
                   querySnapshot.docs.map((doc) => doc.data()).toList();
             });
@@ -52,6 +61,9 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
       body: Column(
         children: [
+
+          // Search Bar
+
           Padding(
             padding: const EdgeInsets.fromLTRB(25, 75, 25, 25),
             child: Container(
@@ -85,13 +97,19 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-        Expanded(
+
+
+          // Searched List
+
+          Expanded(
           child: ListView.builder(
             itemCount: _searchResults.length,
             itemBuilder: (context, index) {
               return InkWell(
                 splashColor: Color.fromRGBO(225, 15, 24, 1 ),
-                onTap: (){},
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Tournament_Screen(Tournament: _searchResults[0])));
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
