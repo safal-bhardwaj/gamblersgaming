@@ -29,10 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
 
   void cardData() async {
-    await FirebaseFirestore.instance
-        .collection('Hosted Tournaments')
-        .get()
-        .then((snapshot) {
+    await FirebaseFirestore.instance.collection('Hosted Tournaments').get().then((snapshot) {
       for (var doc in snapshot.docs) {
         var Card = {};
         Card['Game_Image'] = doc["Game_Image"];
@@ -74,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     double fontSize = MediaQuery.of(context).textScaleFactor;
     EdgeInsets screenPadding = MediaQuery.of(context).padding;
-
+    
+    //Add Tournament
     void _openAddTournamentOverlay() {
       showModalBottomSheet(
         context: context,
@@ -93,11 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromRGBO(0, 0, 0, 10),
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.05,
-        title: Text(''),
+        title: const Text(''),
       ),
       body: Center(
+        //CircularProgressIndicator
           child: _isLoading
-              ? CircularProgressIndicator(
+              ? const CircularProgressIndicator(
                   backgroundColor: Colors.white,
                   color: Color.fromRGBO(255, 15, 24, 1),
                 )
@@ -105,6 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      
+                      //Carousel
                       Container(
                         margin: const EdgeInsets.all(13),
                         child: CarouselSlider.builder(
@@ -143,6 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: screenHeight * 0.022,
                       ),
+                      
+                      //Text : Recent Tournament
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -168,6 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+                      
+                      //Cards
                       SizedBox(
                         height: screenHeight * 0.33,
                         child: ListView.builder(
@@ -184,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: screenWidth * 0.68,
                                     height: screenHeight * 0.34,
                                     decoration: BoxDecoration(
-                                        color: Color.fromRGBO(20, 20, 20, 1),
+                                        color: const Color.fromRGBO(20, 20, 20, 1),
                                         borderRadius:
                                             BorderRadius.circular(13)),
                                     child: Column(
@@ -206,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               screenPadding.right + 8,
                                               screenPadding.bottom + 8),
                                           child: Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               border: Border(
                                                   bottom: BorderSide(
                                                       width: 1,
@@ -222,29 +227,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: fontSize * 10),
                                                   textAlign: TextAlign.start,
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.people,
-                                                      color: Color.fromRGBO(
-                                                          128, 8, 12, 1),
-                                                    ),
-                                                    SizedBox(
-                                                      width: screenWidth *
-                                                          0.013,
-                                                    ),
-                                                    Text(
-                                                      "${Card_List[index]["Participants"].length}/${Card_List[index]["Game"] == "Asphalt" ? 8 : 100}",
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              fontSize * 11,
-                                                          fontFamily:
-                                                              "MSPGothic"),
-                                                    ),
-                                                    //SizedBox(width: 3,),
-                                                  ],
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.people,
+                                                        color: Color.fromRGBO(
+                                                            128, 8, 12, 1),
+                                                      ),
+                                                      SizedBox(
+                                                        width: screenWidth *
+                                                            0.013,
+                                                      ),
+                                                      Text(
+                                                        "${Card_List[index]["Participants"].length}/${Card_List[index]["Game"] == "Asphalt" ? 8 : 100}",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                fontSize * 11,
+                                                            fontFamily:
+                                                                "MSPGothic"),
+                                                      ),
+                                                      //SizedBox(width: 3,),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -266,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontSize: fontSize * 13,
                                                         fontFamily:
                                                             "MSPGothic",
-                                                        color: Color.fromRGBO(
+                                                        color: const Color.fromRGBO(
                                                             128, 8, 12, 1)),
                                                   ),
                                                   SizedBox(
@@ -294,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             fontSize: fontSize * 13,
                                                             fontFamily:
                                                                 "MSPGothic",
-                                                            color: Color
+                                                            color: const Color
                                                                 .fromRGBO(
                                                                     128,
                                                                     8,
@@ -343,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           fontFamily:
                                                               "MSPGothic",
                                                           color:
-                                                              Color.fromRGBO(
+                                                              const Color.fromRGBO(
                                                                   128,
                                                                   8,
                                                                   12,
@@ -394,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 fontSize * 13,
                                                             fontFamily:
                                                                 "MSPGothic",
-                                                            color: Color
+                                                            color: const Color
                                                                 .fromRGBO(
                                                                     128,
                                                                     8,
@@ -465,7 +472,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child: Text(
                                                     "More Details ",
                                                     style: TextStyle(
-                                                        color: Color
+                                                        color: const Color
                                                             .fromRGBO(
                                                                 255,
                                                                 15,
@@ -517,7 +524,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             }),
                       ),
-                      SizedBox(height: 80,)
+                      const SizedBox(height: 80,)
                     ],
                   ),
                 )),

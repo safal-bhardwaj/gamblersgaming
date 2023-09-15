@@ -1604,11 +1604,10 @@ class _NewTournamentState extends State<NewTournament> {
                     ),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        //<-- SEE HERE
                         borderRadius: BorderRadius.circular(20.5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        //<-- SEE HERE
+
                         borderRadius: BorderRadius.circular(20.5),
                       ),
                       border: InputBorder.none,

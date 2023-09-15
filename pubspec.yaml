@@ -52,6 +52,7 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   pinput: ^2.2.31
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -136,5 +137,8 @@ flutter:
     - family: Orbitron
       fonts:
         - asset: fonts/Orbitron.ttf
+    - family: Icons
+      fonts:
+        - asset: fonts/Icons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
