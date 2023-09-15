@@ -13,17 +13,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //Backend
-  // var Card = {
-  //   "Date": null,
-  //   "Time": "",
-  //   "Game_Image": "",
-  //   "Title": "",
-  //   "Game": "",
-  //   "Registration Fee": 0,
-  //   "Prize Pool": 0,
-  //   "Prize Pool Distribution": "",
-  //   "Participants": [],
-  // };
+  var Card = {
+    "Date": null,
+    "Time": "",
+    "Game_Image": "",
+    "Title": "",
+    "Game": "",
+    "Registration Fee": 0,
+    "Prize Pool": 0,
+    "Prize Pool Distribution": "",
+    "Participants": [],
+  };
 
   List<Map> Card_List = [];
   bool _isLoading = true;
@@ -527,7 +527,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: screenHeight * 0.1,
         child: FloatingActionButton(
           backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
-          onPressed: _openAddTournamentOverlay,
+          onPressed:(){ _openAddTournamentOverlay(); },
           child: Image.asset(
             'assets/Images/Gamer/game-controller (3).png',
             width: screenWidth * 0.1,
