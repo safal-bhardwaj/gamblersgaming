@@ -56,165 +56,185 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
-      backgroundColor: Color.fromRGBO(0, 0, 0, 1),
-      body: Column(
-        children: [
+      return LayoutBuilder(builder: (ctx , constraints){
 
-          // Search Bar
+        final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 75, 25, 25),
-            child: Container(
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(40)
-              ),
-              child: TextField(onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-                _performSearch(_searchQuery);
 
-              },
-                decoration: InputDecoration(
-                  icon: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Image.asset("assets/Images/loupe1.png", width: 20,height: 20,),
+        return Scaffold(
+
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
+          body: Column(
+            children: [
+
+              // Search Bar
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 75, 25, 25),
+                child: Container(
+                  height: height < 1000 ? 30 :  40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40)
                   ),
-                  hintText: 'Search Game / Tournament Name or ID',
-                  hintStyle: TextStyle(color: Color.fromRGBO(70, 70, 70, 0.6),fontFamily: 'orbitron',fontSize: 12),
-                  contentPadding: EdgeInsets.fromLTRB(0, 10, 20, 13),
-                  border: InputBorder.none,
+                  child: TextField(onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                    _performSearch(_searchQuery);
 
-                ),
-                style: TextStyle(
-                  color: Colors.black,
-                    fontFamily: 'orbitron',fontSize: 12
+                  },
+                    decoration: InputDecoration(
+                      icon: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Image.asset("assets/Images/loupe1.png", width: 20,height: 20,),
+                      ),
+                      hintText: 'Search Game / Tournament Name or ID',
+                      hintStyle: const TextStyle(color: Color.fromRGBO(70, 70, 70, 0.6),fontFamily: 'orbitron',fontSize: 12),
+                      contentPadding: const EdgeInsets.fromLTRB(0, 10, 20, 13),
+                      border: InputBorder.none,
+
+                    ),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'orbitron',fontSize: width < 500 ? 9 : 12
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
 
 
-          // Searched List
+              // Searched List
 
-          Expanded(
-          child: ListView.builder(
-            itemCount: _searchResults.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                splashColor: Color.fromRGBO(225, 15, 24, 1 ),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Tournament_Screen(Tournament: _searchResults[0])));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    width: 280,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(20, 20, 20, 1),
-                      borderRadius: BorderRadius.circular(13)
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(13)),
-                            child: Image.asset(_searchResults[index]["Game_Image"],height: 90,fit: BoxFit.cover,)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                              child: Container(
-                                decoration: BoxDecoration(border: Border(
-                                    bottom: BorderSide(width: 1,
-                                        color: Color.fromRGBO(128, 8, 12, 1)))),
-                                child: Row(
 
-                                  children: [Text(_searchResults[index]["Title"] , style: TextStyle(fontFamily: "orbitron"),),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Icon(Icons.people,
-                                            color: Color.fromRGBO(
-                                                128, 8, 12, 1),)
-                                          ,
-                                          SizedBox(width: 3,),
-                                          Text(
-                                            "${_searchResults[index]["Participants"]
-                                                .length}/${_searchResults[index]["Game"] ==
-                                                "Asphalt" ? 8 : 100}",
-                                            style: TextStyle(fontSize: 14,
-                                                fontFamily: "MSPGothic"),),
-                                          SizedBox(width: 3,),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                        Padding(
+
+
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _searchResults.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                        splashColor: const Color.fromRGBO(225, 15, 24, 1 ),
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Tournament_Screen(Tournament: _searchResults[0])));
+                        },
+                        child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("${formatter.format(
-              DateTime.fromMillisecondsSinceEpoch(
-              _searchResults[index]["Date"].seconds *
-              1000))}", style: TextStyle(
-              fontSize: 12, fontFamily: "MSPGothic"),
-              ),
-                        ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(90, 8, 8, 8),
-                                child: Text(_searchResults[index]["Time"], style: TextStyle(
-                                    fontSize: 12, fontFamily: "MSPGothic"),),
-                              )
+                          child: Container(
+                            height: screenHeight * 0.1,
 
-                            ],
-                          )
-                        ),
-                            Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Fee : ${
-                                              _searchResults[index]["Registration Fee"]}", style: TextStyle(
-                                          fontSize: 12, fontFamily: "MSPGothic"),
-                                      ),
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(20, 20, 20, 1),
+                                borderRadius: BorderRadius.circular(13)
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                    borderRadius: const
+                                    BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(13)),
+                                    child: Image.asset(_searchResults[index]["Game_Image"],
+                                      height: screenHeight * 0.1,
+                                      fit: BoxFit.cover,)
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding : width < 500 ? EdgeInsets.all(5.0) : EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          decoration: const BoxDecoration(border: Border(
+                                              bottom: BorderSide(width: 1,
+                                                  color: Color.fromRGBO(128, 8, 12, 1)))),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                            children: [Text(_searchResults[index]["Title"] , style: TextStyle(
+                                                fontFamily: "orbitron",
+                                              fontSize: width < 500 ? 10 : 15
+                                            ),),
+                                              Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(Icons.people,
+                                                    color: Color.fromRGBO(
+                                                        128, 8, 12, 1),),
+
+                                                  const SizedBox(width: 3,),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                                    child: Text(
+                                                      "${_searchResults[index]["Participants"]
+                                                          .length}/${_searchResults[index]["Game"] ==
+                                                          "Asphalt" ? 8 : 100}",
+                                                      style: TextStyle(fontSize: width < 500 ? 12 : 16,
+                                                          fontFamily: "MSPGothic"),
+
+                                                    ),
+                                                  ),
+
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+
+                                        SizedBox(height: height < 1000 ? screenHeight * 0.009 : screenHeight * 0.013,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("${formatter.format(
+                                                DateTime.fromMillisecondsSinceEpoch(
+                                                    _searchResults[index]["Date"].seconds *
+                                                        1000))}", style: TextStyle(
+                                                fontSize: width < 500 ? 10 :15, fontFamily: "MSPGothic"),
+                                            ),
+                                            Text(_searchResults[index]["Time"], style:  TextStyle(
+                                                fontSize:  width < 500 ? 10 :15, fontFamily: "MSPGothic"),)
+
+                                          ],
+                                        ),
+
+                                        SizedBox(height: height < 1000 ? screenHeight * 0.009 : screenHeight * 0.013,),
+                                        Row(
+                                          mainAxisAlignment : MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("Fee : ${
+                                                _searchResults[index]["Registration Fee"]}", style: TextStyle(
+                                                fontSize:  width < 500 ? 10 :15, fontFamily: "MSPGothic"),
+                                            ),
+                                            Text(""
+                                                "Prize Pool : ${_searchResults[index]["Prize Pool"]}", style: TextStyle(
+                                                fontSize:  width < 500 ? 10 :15, fontFamily: "MSPGothic"),
+                                            )
+                                          ],
+                                        ),
+
+
+                                      ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(80, 8, 8, 8),
-                                      child: Text(""
-                                          "Prize Pool : ${_searchResults[index]["Prize Pool"]}", style: TextStyle(
-                                          fontSize: 12, fontFamily: "MSPGothic"),),
-                                    )
-
-                                  ],
+                                  ),
                                 )
-                            )
-                          ],
+                              ],
+                            ),
+                          ),
                         )
-                      ],
-                    ),
-                  ),
-                )
-              );
-            },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ),
-        ],
-      ),
-    );
+        );
+      });
+
   }
 }

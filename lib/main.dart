@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gamblersgaming/Splash.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gamblersgaming/ThemeColors.dart';
 import 'firebase_options.dart';
 import 'BottomNavigation.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: BottomNavigation(),
+      home: Splash(),
     );
   }
 }

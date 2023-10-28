@@ -1,23 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class Tournament_Screen extends StatelessWidget {
+class Tournament_Screen extends StatefulWidget {
   // ignore: non_constant_identifier_names
   Tournament_Screen({Key? key, required this.Tournament}) : super(key: key);
   // ignore: non_constant_identifier_names
   Map<String, dynamic> Tournament;
+
+  @override
+  State<Tournament_Screen> createState() => _Tournament_ScreenState();
+}
+
+class _Tournament_ScreenState extends State<Tournament_Screen> {
   final formatter = DateFormat.yMMMMd('en_US');
+
+  List<int> prizepooldist = [];
+
+  @override
+  void initState() {
+    super.initState(); // Call the super.initState() first.
+
+    // Assuming Tournament['Prizes'] is a Map<int, int>.
+    widget.Tournament['Prizes'].forEach((key, value) {
+      if (value != 0) {
+        prizepooldist.add(value); // Add the value to the prizepooldist list.
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(
-            20,
-            20,
-            20,
-            1,
-          ),
+          backgroundColor: const Color.fromRGBO(20, 20, 20, 1,),
           iconTheme: const IconThemeData(
             color: Color.fromRGBO(128, 8, 12, 1), //change your color here
           ),
@@ -26,31 +44,29 @@ class Tournament_Screen extends StatelessWidget {
         body:
 
             // Whole search container
-        
-        
-            Container(
-          child: SingleChildScrollView(
-            child: Column(
+
+
+            Column(
               children: [
-                
-                
-                // Image Container
 
-                Container(
-                    child: ClipRRect(
+
+                // Image
+
+                ClipRRect(
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.zero,
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.circular(13),
-                      bottomRight: Radius.circular(13)),
+                  topLeft: Radius.zero,
+                  topRight: Radius.zero,
+                  bottomLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(13)),
                   child: Image.asset(
-                    Tournament['Game_Image'],
+                    widget.Tournament['Game_Image'],
                     fit: BoxFit.cover,
+                    width: screenWidth ,
                   ),
-                )),
+                ),
 
-                
-                // Title + Participants count Container
+
+                // Title + Participants count
 
                 Container(
                     padding: const EdgeInsets.all(12),
@@ -68,7 +84,7 @@ class Tournament_Screen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          Tournament['Title'],
+                          widget.Tournament['Title'],
                           style: const TextStyle(
                             fontSize: 18,
                             fontFamily: 'Orbitron',
@@ -93,7 +109,7 @@ class Tournament_Screen extends StatelessWidget {
                                 width: 20,
                               ),
                               Text(
-                                "${Tournament["Participants"].length}/${Tournament["Game"] == "Asphalt" ? 8 : 100}",
+                                "${widget.Tournament["Participants"].length}/${widget.Tournament["Game"] == "Asphalt" ? 8 : 100}",
                                 style: const TextStyle(
                                     fontSize: 16, fontFamily: "MSPGothic"),
                               ),
@@ -126,7 +142,7 @@ class Tournament_Screen extends StatelessWidget {
                               "MSPGothic",
                               color: Color.fromRGBO(
                                   128, 8, 12, 1)),),
-                          Text("${formatter.format(DateTime.fromMillisecondsSinceEpoch(Tournament["Date"].seconds * 1000))}",
+                          Text("${formatter.format(DateTime.fromMillisecondsSinceEpoch(widget.Tournament["Date"].seconds * 1000))}",
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontFamily:
@@ -148,7 +164,7 @@ class Tournament_Screen extends StatelessWidget {
                            color: Color.fromRGBO(
                                128, 8, 12, 1)),),
                           Text(
-                            Tournament["Time"],
+                            widget.Tournament["Time"],
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontFamily:
@@ -171,7 +187,7 @@ class Tournament_Screen extends StatelessWidget {
                               color: Color.fromRGBO(
                                   128, 8, 12, 1)),),
                           Text(
-                            Tournament["Registration Fee"].toString(),
+                            widget.Tournament["Registration Fee"].toString(),
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontFamily:
@@ -206,7 +222,7 @@ class Tournament_Screen extends StatelessWidget {
                                 "MSPGothic",
                                 color: Color.fromRGBO(
                                     128, 8, 12, 1)),),
-                            Text('Null',
+                            Text(widget.Tournament['Maps'],
                                 style: const TextStyle(
                                 fontSize: 14,
                                 fontFamily:
@@ -228,7 +244,7 @@ class Tournament_Screen extends StatelessWidget {
                                 color: Color.fromRGBO(
                                     128, 8, 12, 1)),),
                             Text(
-                              "null",
+                              widget.Tournament['Perspective'].toString(),
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontFamily:
@@ -251,7 +267,7 @@ class Tournament_Screen extends StatelessWidget {
                                 color: Color.fromRGBO(
                                     128, 8, 12, 1)),),
                             Text(
-                              "null",
+                              widget.Tournament['Players'],
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontFamily:
@@ -281,183 +297,33 @@ class Tournament_Screen extends StatelessWidget {
 
                 // Prizes Rows
 
+                SizedBox(height: screenHeight * 0.02,),
 
-                Column(
 
-                  children: [
-
-                  //Rank 1
-                    SizedBox(width: 20,height: 20),
-
-                  Row(
-
-                   mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Rank 1'),
-                      SizedBox(width: 230),
-                      Text('1000'),
-                      Image.asset(
-                        'assets/Images/chips.png',
-                        width: 10,
-                      ),
-                    ],
+                Container(
+                  height: 50,
+                  child: ListView.builder(
+                    itemCount: prizepooldist.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Rank ${index + 1}'),
+                          SizedBox(width: 230),
+                          Text('${prizepooldist[index]}'),
+                          Image.asset(
+                            'assets/Images/chips.png',
+                            width: 10,
+                          ),
+                        ],
+                      );
+                    },
                   ),
-
-                  //Rank 2
-
-                    SizedBox(width: 20,height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Rank 2'),
-                      SizedBox(width: 230),
-                      Text('1000'),
-                      Image.asset(
-                        'assets/Images/chips.png',
-                        width: 10,
-                      ),
-                    ],
-                  ),
-
-                  //Rank 3
-
-                    SizedBox(width: 20,height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Rank 3'),
-                      SizedBox(width: 230),
-                      Text('1000',textAlign: TextAlign.right,),
-                      Image.asset(
-                        'assets/Images/chips.png',
-                        width: 10,
-                      ),
-                    ],
-                  ),
-
-
-                    //Rank 4
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 4'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-                    //Rank 5
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 5'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-                    //Rank 6
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 6'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-
-                    //Rank 7
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 7'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-
-                    //Rank 8
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 8'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-                    //Rank 9
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 9'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-                    //Rank 10
-
-                    SizedBox(width: 20,height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Rank 10'),
-                        SizedBox(width: 230),
-                        Text('1000',textAlign: TextAlign.right,),
-                        Image.asset(
-                          'assets/Images/chips.png',
-                          width: 10,
-                        ),
-                      ],
-                    ),
-
-
-                ],)
+                ),
 
 
               ],
             ),
-          ),
-        ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
         width: 200,
@@ -467,7 +333,7 @@ class Tournament_Screen extends StatelessWidget {
           onPressed: (){},
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          child: Text('Pay '+Tournament['Registration Fee'].toString()+' and Register' ,style: TextStyle(fontFamily: 'Orbitron' , color: Colors.white),)
+          child: Text('Pay '+widget.Tournament['Registration Fee'].toString()+' and Register' ,style: TextStyle(fontFamily: 'Orbitron' , color: Colors.white),)
         ),
       ),);
   }
