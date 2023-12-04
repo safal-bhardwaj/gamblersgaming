@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/AccountScreen.dart';
 import 'package:gamblersgaming/Home.dart';
 import 'package:gamblersgaming/HomeScreen.dart';
 import 'Home.dart';
@@ -29,7 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       activePage = const Home();
     }
     if(_selectedPageIndex == 3){
-      activePage = const Home();
+      activePage =  Account_Screen();
     }
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

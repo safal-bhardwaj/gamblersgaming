@@ -53,6 +53,7 @@ dependencies:
   geocoding: ^2.1.0
   pinput: ^2.2.31
   image_gallery_saver: ^2.0.3
+  contactus: ^1.2.3
 
 dev_dependencies:
   flutter_test:
@@ -115,7 +116,9 @@ flutter:
     - assets\Images\freefire.png
     - assets\Images\bgmi.jpg
     - assets\Images\downarrow.png
-
+    - assets\Images\wallpaper.jpg
+    - assets\Images\rightarrow.png
+    - assets\Images\Logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

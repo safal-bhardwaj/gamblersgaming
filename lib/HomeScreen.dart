@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gamblersgaming/TournamentRegistration.dart';
 import 'package:gamblersgaming/NewTournament.dart';
 import 'package:gamblersgaming/Tournament_Screen.dart';
 import 'package:intl/intl.dart';
@@ -93,6 +94,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           builder: (ctx) {
             return const NewTournament();
+          },
+        );
+      }
+
+
+
+      //Register in the tournament
+
+      void _openUserRegisterOverlay(Map <String, dynamic> game) {
+        showModalBottomSheet<dynamic>(
+
+          context: context,
+          builder: (ctx) {
+            return Container(
+              height: height * 0.33,
+                child: TournamentRegistration(Tournament: game,)
+            );
           },
         );
       }
@@ -487,7 +505,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 child: SizedBox(
                                                   height: height < 1000 ? screenHeight * 0.023 : screenHeight * 0.025,
                                                   child: ElevatedButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      _openUserRegisterOverlay(Card_List[index]);
+                                                    },
                                                     style: ElevatedButton.styleFrom(
                                                       backgroundColor: const Color.fromRGBO(255, 15, 24, 10),
                                                       shape: RoundedRectangleBorder(

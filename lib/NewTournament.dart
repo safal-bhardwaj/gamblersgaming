@@ -473,7 +473,7 @@ class _NewTournamentState extends State<NewTournament> {
                               style: TextStyle(
                                   fontSize: width < 500 ? 10 : 12,
                                   fontFamily: 'Orbitron',
-                                  color: Color.fromRGBO(128, 8, 12, 10)),
+                                  color: const Color.fromRGBO(128, 8, 12, 10)),
                             ),
                           );
                         }).toList(),
@@ -513,7 +513,7 @@ class _NewTournamentState extends State<NewTournament> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: 'Orbitron',
-                          color: Color.fromRGBO(255, 15, 24, 1),
+                          color: const Color.fromRGBO(255, 15, 24, 1),
                           letterSpacing: 2,
                           fontSize: width < 500 ? 9 : 13,
                         ),
@@ -568,7 +568,7 @@ class _NewTournamentState extends State<NewTournament> {
                       child: TextField(
                         style: TextStyle(
                             fontFamily: 'Orbitron',
-                            color: Color.fromRGBO(255, 15, 24, 1),
+                            color: const Color.fromRGBO(255, 15, 24, 1),
                             letterSpacing: 2,
                             fontSize: width < 500 ? 9 : 13
                         ),
@@ -643,7 +643,7 @@ class _NewTournamentState extends State<NewTournament> {
                         style: TextStyle(
                             fontFamily: 'Orbitron',
                             fontSize: width < 500 ? 9 : 13,
-                            color: Color.fromRGBO(255, 15, 24, 1),
+                            color: const Color.fromRGBO(255, 15, 24, 1),
                             letterSpacing: 2
                         ),
                         textAlign: TextAlign.left,
@@ -1264,7 +1264,7 @@ class _NewTournamentState extends State<NewTournament> {
                                       style: TextStyle(
                                           fontFamily: 'Orbitron',
                                           fontSize: width < 500 ? 9 : 13,
-                                          color: Color.fromRGBO(255, 15, 24, 1),
+                                          color: const Color.fromRGBO(255, 15, 24, 1),
                                           letterSpacing: 2
                                       ),
                                       textAlign: TextAlign.left,
@@ -1321,7 +1321,7 @@ class _NewTournamentState extends State<NewTournament> {
                                             style: TextStyle(
                                                 fontFamily: 'Orbitron',
                                                 fontSize: width < 500 ? 9 : 13,
-                                                color: Color.fromRGBO(255, 15, 24, 1),
+                                                color: const Color.fromRGBO(255, 15, 24, 1),
                                                 letterSpacing: 2
                                             ),
                                             textAlign: TextAlign.left,
@@ -1376,7 +1376,7 @@ class _NewTournamentState extends State<NewTournament> {
                                             style: TextStyle(
                                                 fontFamily: 'Orbitron',
                                                 fontSize: width < 500 ? 9 : 13,
-                                                color: Color.fromRGBO(255, 15, 24, 1),
+                                                color: const Color.fromRGBO(255, 15, 24, 1),
                                                 letterSpacing: 2
                                             ),
                                             textAlign: TextAlign.left,
@@ -1435,7 +1435,7 @@ class _NewTournamentState extends State<NewTournament> {
                                             style: TextStyle(
                                                 fontFamily: 'Orbitron',
                                                 fontSize: width < 500 ? 9 : 13,
-                                                color: Color.fromRGBO(255, 15, 24, 1),
+                                                color: const Color.fromRGBO(255, 15, 24, 1),
                                                 letterSpacing: 2
                                             ),
                                             textAlign: TextAlign.left,
@@ -1491,7 +1491,7 @@ class _NewTournamentState extends State<NewTournament> {
                                           style: TextStyle(
                                               fontFamily: 'Orbitron',
                                               fontSize: width < 500 ? 9 : 13,
-                                              color: Color.fromRGBO(255, 15, 24, 1),
+                                              color: const Color.fromRGBO(255, 15, 24, 1),
                                               letterSpacing: 2
                                           ),
                                           textAlign: TextAlign.left,
@@ -1548,7 +1548,7 @@ class _NewTournamentState extends State<NewTournament> {
                                           style: TextStyle(
                                               fontFamily: 'Orbitron',
                                               fontSize: width < 500 ? 9 : 13,
-                                              color: Color.fromRGBO(255, 15, 24, 1),
+                                              color: const Color.fromRGBO(255, 15, 24, 1),
                                               letterSpacing: 2
                                           ),
                                           textAlign: TextAlign.left,
@@ -1616,7 +1616,7 @@ class _NewTournamentState extends State<NewTournament> {
                         hint:  Text(
                           'Choose your Map',
                           style: TextStyle(
-                              color: Color.fromRGBO(128, 8, 12, 1),
+                              color: const Color.fromRGBO(128, 8, 12, 1),
                               fontFamily: 'Orbitron',
                               fontSize: width < 500 ? 10 : 12
                           ),
@@ -1655,7 +1655,7 @@ class _NewTournamentState extends State<NewTournament> {
                               style: TextStyle(
                                   fontSize: width < 500 ? 10 : 12,
                                   fontFamily: 'Orbitron',
-                                  color: Color.fromRGBO(128, 8, 12, 10)),
+                                  color: const Color.fromRGBO(128, 8, 12, 10)),
                             ),
                           );
                         }).toList(),
@@ -1844,7 +1844,7 @@ class _NewTournamentState extends State<NewTournament> {
           floatingActionButton: Visibility(
             visible: true,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               transform:
