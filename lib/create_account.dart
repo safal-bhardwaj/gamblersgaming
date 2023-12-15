@@ -67,11 +67,11 @@ class _CreateAccountState extends State<CreateAccount> {
     setState(() {
       _isUploading = true;
     });
-    final storageRef = FirebaseStorage.instance.ref()
-        .child('User_Images')
-        .child('${widget.phone}.jpg');
-    await storageRef.putFile(_pickedImageFile!);
-    final _imageURL = await storageRef.getDownloadURL();
+    // final storageRef = FirebaseStorage.instance.ref()
+    //     .child('User_Images')
+    //     .child('${widget.phone}.jpg');
+    // await storageRef.putFile(_pickedImageFile!);
+    // final _imageURL = await storageRef.getDownloadURL();
 
     await _getCurrentPosition();
 
@@ -80,7 +80,7 @@ class _CreateAccountState extends State<CreateAccount> {
         .doc('${widget.phone}')
         .set({
       'Username' : _username,
-      'Image-Url' : _imageURL ,
+      'Image-Url' : "" ,
       'E-mail' : _email,
       'UPI-ID' : _UPI,
       'Loacation' : _currentAddress,
@@ -433,16 +433,16 @@ class _CreateAccountState extends State<CreateAccount> {
                             padding: const EdgeInsets.only(left: 40.0, top: 40),
                             child: ElevatedButton(
                               onPressed: () {
-                                if (_pickedImagePath == "") {
-                                  const snackBar = SnackBar(
-                                    content: Text('Upload Image and Retry!',
-                                      style: TextStyle(fontFamily: 'MSPGothic'),),
-                                    backgroundColor: Colors.white,
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      snackBar);
-                                  return;
-                                }
+                                // if (_pickedImagePath == "") {
+                                //   const snackBar = SnackBar(
+                                //     content: Text('Upload Image and Retry!',
+                                //       style: TextStyle(fontFamily: 'MSPGothic'),),
+                                //     backgroundColor: Colors.white,
+                                //   );
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //       snackBar);
+                                //   return;
+                                // }
                                 _signUP();
                               },
                               style: ElevatedButton.styleFrom(
